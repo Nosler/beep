@@ -1,15 +1,15 @@
-import { createSignal } from "solid-js";
-import logo from "./assets/logo.svg";
-import { invoke } from "@tauri-apps/api/tauri";
-import "./App.css";
+import { createSignal } from 'solid-js';
+import logo from './assets/logo.svg';
+import { invoke } from '@tauri-apps/api/tauri';
+import './App.css';
 
 function App() {
-  const [greetMsg, setGreetMsg] = createSignal("");
-  const [name, setName] = createSignal("");
+  const [greetMsg, setGreetMsg] = createSignal('');
+  const [name, setName] = createSignal('');
 
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name: name() }));
+    setGreetMsg(await invoke('greet', { name: name() }));
   }
 
   return (
@@ -27,14 +27,14 @@ function App() {
           <img src={logo} class="logo solid" alt="Solid logo" />
         </a>
       </div>
-
+      {/* */}
       <p>Click on the Tauri, Vite, and Solid logos to learn more.</p>
 
       <form
         class="row"
         onSubmit={(e) => {
           e.preventDefault();
-          greet();
+          void greet();
         }}
       >
         <input
