@@ -15,7 +15,7 @@ function App() {
   return (
     <div class="container">
       <h1>Welcome to Tauri!</h1>
-
+      
       <div class="row">
         <a href="https://vitejs.dev" target="_blank">
           <img src="/vite.svg" class="logo vite" alt="Vite logo" />
@@ -27,24 +27,9 @@ function App() {
           <img src={logo} class="logo solid" alt="Solid logo" />
         </a>
       </div>
-
-      <p>Click on the Tauri, Vite, and Solid logos to learn more.</p>
-
-      <form
-        class="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-
+      <button>
+      Button
+      </button>
       <p>{greetMsg()}</p>
     </div>
   );
