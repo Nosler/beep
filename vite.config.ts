@@ -1,9 +1,10 @@
 import { defineConfig } from "vite";
 import solid from "vite-plugin-solid";
+import eslint from 'vite-plugin-eslint'
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
-  plugins: [solid()],
+  plugins: [solid(), {...eslint(), apply: 'build'}, {...eslint({failOnWarning: false, failOnError: false}), apply: 'serve', enforce:'post'}],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
