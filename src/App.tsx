@@ -9,43 +9,19 @@ function App() {
 
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke('greet', { name: name() }));
+    setGreetMsg(await invoke('fuck', { name: name() }));
   }
 
   return (
     <div class="container">
-      <h1>Welcome to Tauri!</h1>
-      
-      <div class="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" class="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" class="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://solidjs.com" target="_blank">
-          <img src={logo} class="logo solid" alt="Solid logo" />
-        </a>
+      <div class='grid grid-rows-3'>
+        <div class="row button-row align-baseline">
+          <button id='sound-button' type="submit">1</button>
+          <button id='sound-button' type="submit">2</button>
+          <button id='sound-button' type="submit">3</button>
+          <button id='sound-button' type="submit">4</button>
+        </div>
       </div>
-      {/* */}
-      <p>Click on the Tauri, Vite, and Solid logos to learn more.</p>
-
-      <form
-        class="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-
-      <p>{greetMsg()}</p>
     </div>
   );
 }
