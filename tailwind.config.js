@@ -4,7 +4,8 @@ module.exports = {
   ],
   theme: {
     colors: {
-      pink: "#ff00ff"
+      pink: "#ff00ff",
+      bg: "#262626"
     },
     extend: {
       spacing: {

@@ -1,5 +1,4 @@
-input,
-button {
+.clicky {
   border-radius: 0px;
   font-size: 1em;
   font-weight: 500;
@@ -14,18 +13,15 @@ button {
   margin-right: 1vw;
   margin-top: 5px;
   margin-bottom: 11px;
-}
-
-button {
   cursor: pointer;
 }
 
-button:hover {
+.clicky:hover {
   color: #ff00ff;
   border-color: #ff00ff;
 }
 
-button:active {
+.clicky:active {
   margin-top: 10px;
   margin-bottom: 5px;
   color: #ffff00;
