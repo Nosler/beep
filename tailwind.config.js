@@ -3,7 +3,15 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    colors: {
+      pink: "#ff00ff"
+    },
+    extend: {
+      spacing: {
+        '20vw': '20vw',
+        '21vw': '21vw',
+      }
+    }
   },
-  plugins: [],
+  plugins: []
 }

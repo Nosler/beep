@@ -7,5 +7,5 @@
         "prettier-plugin-tailwindcss"
     ],
     "useTabs": false,
-    "printWidth": 100
+    "printWidth": 80
 }

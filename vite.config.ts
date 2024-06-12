@@ -1,10 +1,21 @@
-import { defineConfig } from "vite";
-import solid from "vite-plugin-solid";
-import eslint from 'vite-plugin-eslint'
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { defineConfig } from 'vite';
+import solid from 'vite-plugin-solid';
+import eslint from 'vite-plugin-eslint';
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
-  plugins: [solid(), {...eslint(), apply: 'build'}, {...eslint({failOnWarning: false, failOnError: false}), apply: 'serve', enforce:'post'}],
+  plugins: [
+    solid(),
+    { ...eslint(), apply: 'build' },
+    {
+      ...eslint({ failOnWarning: false, failOnError: false }),
+      apply: 'serve',
+      enforce: 'post',
+    },
+  ],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
@@ -16,7 +27,7 @@ export default defineConfig(async () => ({
     strictPort: true,
     watch: {
       // 3. tell vite to ignore watching `src-tauri`
-      ignored: ["**/src-tauri/**"],
+      ignored: ['**/src-tauri/**'],
     },
   },
 }));

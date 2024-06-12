@@ -12,7 +12,9 @@ module.exports = {
     rules: {
         '@typescript-eslint/no-unused-vars': [
             'warn', { argsIgnorePattern: '^_' }
-        ]
+        ],
+        "tailwindcss/no-custom-classname": ["off"],
+        "tailwindcss/classnames-order": ["off"],
     },
     parserOptions: {
         ecmaVersion: 'latest',
