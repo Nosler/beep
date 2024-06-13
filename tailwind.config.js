@@ -23,6 +23,7 @@ module.exports = {
       },
       boxShadow: {
         'clicky': '0px 10px 0px rgba(0, 0, 0, 0.9)',
+        'clicky-sm': '0px 6px 0px rgba(0, 0, 0, 0.9)'
       }
     }
   },

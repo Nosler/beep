@@ -32,9 +32,10 @@
       {
         "title": "BEEP",
         "width": 360,
-        "height": 210,
+        "height": 410,
         "resizable": false,
-        "decorations": false
+        "decorations": false,
+        "alwaysOnTop": true
       }
     ],
     "security": {

@@ -40,12 +40,12 @@ body {
 }
 
 .titlebar {
-  height: 24px;
-  background: #111111;
   user-select: none;
-  display: flex;
   justify-content: flex-end;
+  background: #111111;
+  display: flex;
   position: fixed;
+  height: 24px;
   top: 0;
   left: 0;
   right: 0;
@@ -54,9 +54,12 @@ body {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 24px;
+  width: 32px;
   height: 24px;
 }
 .titlebar-button:hover {
-  background: #ff00aa;
+  background: #ff00ff;
+}
+.titlebar-button:active {
+  background: #ffff00;
 }

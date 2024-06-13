@@ -6,9 +6,9 @@ interface SoundButtonProps {
 }
 
 const buttonDefault = `
-bg-black rounded-none text-white font-medium
+bg-black rounded-none text-white font-medium transition-colors duration-100
 border-solid border-white border
-mx-0.5 mt-2 mb-3
+mx-0.5 mt-1 mb-3
 relative max-h-20vw min-h-12 min-w-20vw
 shadow-clicky
 `;

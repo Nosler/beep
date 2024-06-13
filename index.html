@@ -8,25 +8,10 @@
   <link rel="icon" type="image/svg+xml" href="/src/assets/logo.svg" />
   <title>Tauri + Solid + Typescript App</title>
 </head>
-<script>
-  import { appWindow } from '@tauri-apps/api/window'
-
-</script>
 
 <body>
-  <div data-tauri-drag-region class="titlebar">
-    <p data-tauri-drag-region class="bg-blue text-xs text-left w-full pt-1">BEEP v.20241206</p>
-    <div class="titlebar-button" id="titlebar-minimize">
-      <img src="src\assets\minimize.png" alt="minimize" />
-    </div>
-    <div class="titlebar-button" id="titlebar-close">
-      <img src="src\assets\x.png" alt="close" />
-    </div>
-  </div>
-
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
-
   <script src="/src/index.tsx" type="module"></script>
 </body>
 
