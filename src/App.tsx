@@ -16,7 +16,6 @@ function App() {
       <div class="blue h-full flex-col justify-center bg-tengrey text-center">
         <div>
           <ConnectForm ws={ws() as WebSocket} />
-          <></>
         </div>
         <ButtonGrid />
         <div class="mr-3 mt-1.5 text-right text-xs opacity-60">
