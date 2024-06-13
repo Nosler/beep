@@ -1,6 +1,8 @@
 html {
   height: 100%;
+  user-select: none;
 }
+
 body {
   margin: 0;
   height: 100%;
@@ -23,39 +25,6 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
-input,
-button {
-  border-radius: 0px;
-  font-size: 1em;
-  font-weight: 500;
-  color: white;
-  font-family: inherit;
-  background-color: #000000;
-  transition: border-color 0.15s;
-  box-shadow: 1px 10px 0px rgba(0, 0, 0, 0.5);
-  border: 1px solid white;
-  
-  padding: .2em;
-  margin-left: 1vw;
-  margin-right: 1vw;
-  margin-top: 5px;
-  margin-bottom: 11px;
-}
-
-button {
-  cursor: pointer;
-}
-
-button:hover {
-  color: #ff00ff;
-  border-color: #ff00ff;
-}
-button:active {
-  color: #ffff00;
-  border-color: #ffff00;
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
-}
-
 #root {
   height: 100%;
   width: 100%;
@@ -68,24 +37,6 @@ button:active {
   100% {
     background-position: 0 256;
   }
-}
-
-#sound-button {
-  min-width: 20vw;
-  min-height: 50px;
-  max-height: 20vw;
-}
-
-/* .button-row {
-  min-height: 70px;
-  max-height: 21vw;
-}*/
-
-.container {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  text-align: center;
 }
 
 .titlebar {
@@ -109,4 +60,3 @@ button:active {
 .titlebar-button:hover {
   background: #ff00aa;
 }
-

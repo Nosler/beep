@@ -9,17 +9,17 @@ function App() {
   const { ws, isWSConnected, id, peerId } = createConnection();
 
   return (
-    <div class="blue h-full bg-tengrey flex-col justify-center text-center">
-      <div class='bg-tengrey pt-1 mt-6'>
-        <button class="max-h-20vw relative active:top-1">OPTIONS</button>
-        <button>STATUS</button></div>
+    <div class="blue h-full flex-col justify-center bg-tengrey text-center">
+      <OptionsGrid />
       <ButtonGrid />
-      <div class='text-xs mt-1.5 mr-3 text-right opacity-60'></div>
-      <h1>
-        Discovery server: {isWSConnected() ? 'Connected' : 'Disconnected'}
-      </h1>
-      <h1>Id: {id()}</h1>
-      <h1>Peer Id: {peerId()}</h1>
+      <div class="mr-3 mt-1.5 text-right text-xs opacity-60">
+        <span class="select-text">
+          Discovery server: {isWSConnected() ? 'Connected' : 'Disconnected'}
+        </span>{' '}
+        <br />
+        <span>Id: {id()}</span> <br />
+        <span>Peer Id: {peerId()}</span>
+      </div>
       <Show when={isWSConnected()}>
         <ConnectForm ws={ws() as WebSocket} />
       </Show>

@@ -1,12 +1,8 @@
-import { For } from 'solid-js';
-import { SoundButton } from './SoundButton';
+import { ClickyButton } from './ClickyButton';
 
 export const OptionsGrid = () => (
-  <div class="bg-blue grid grid-rows-3">
-    <div class="max-h-21vw min-h-14 align-baseline float-bottom">
-      <For each={['1', '2', '3', '4']}>
-        {(num) => <SoundButton text={num} />}
-      </For>
-    </div>
+  <div class="mt-6 bg-tengrey pt-1">
+    <ClickyButton text="OPTIONS" class="min-h-2 text-xs" />
+    <ClickyButton text="STATUS" class="min-h-2 text-xs" />
   </div>
 );

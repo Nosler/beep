@@ -20,6 +20,9 @@ module.exports = {
       spacing: {
         '20vw': '20vw',
         '21vw': '21vw',
+      },
+      boxShadow: {
+        'clicky': '0px 10px 0px rgba(0, 0, 0, 0.9)',
       }
     }
   },
