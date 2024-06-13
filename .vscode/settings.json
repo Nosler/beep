@@ -1,5 +1,7 @@
 {
     "prettier.configPath": ".prettierrc.json",
     "eslint.experimental.useFlatConfig": false,
-    "eslint.lintTask.options": ".eslintrc.cjs"
+    "eslint.lintTask.options": ".eslintrc.cjs",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
 }

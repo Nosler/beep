@@ -1,8 +1,8 @@
 import cn from 'mxcn';
 
 interface SoundButtonProps {
-  text: string;
-  class?: string;
+    text: string;
+    class?: string;
 }
 
 const buttonDefault = `
@@ -16,12 +16,9 @@ const buttonHover = `hover:text-magenta hover:border-magenta`;
 const buttonActive = `active:text-yellow active:border-yellow active:shadow-none active:top-2`;
 
 export const ClickyButton = (props: SoundButtonProps) => {
-  return (
-    <button
-      class={cn(buttonDefault, buttonHover, buttonActive, props.class)}
-      type="submit"
-    >
-      {props.text}
-    </button>
-  );
+    return (
+        <button class={cn(buttonDefault, buttonHover, buttonActive, props.class)} type="submit">
+            {props.text}
+        </button>
+    );
 };
