@@ -13,13 +13,13 @@ function App() {
       <div class="h-[24px]" />
       <div class="blue h-full flex-col justify-center bg-tengrey text-center">
         <div>
-          <ConnectForm ws={ws} />
+          <ConnectForm ws={ws} id={id} />
         </div>
         <ButtonGrid />
         <div class="mr-3 mt-1.5 text-right text-xs opacity-60">
           <span class="select-text">
             Discovery server: {isWSConnected() ? 'Connected' : 'Disconnected'}
-          </span>{' '}
+          </span>
           <br />
           <span>Id: {id()}</span> <br />
           <span>Peer Id: {peerId()}</span>

@@ -1,14 +1,20 @@
 import { Accessor, createSignal } from 'solid-js';
 import { createMatchMessage } from '../connection/createWSMessage';
 
-export const ConnectForm = (props: { ws: Accessor<WebSocket | null> }) => {
+interface ConnectFormProps {
+  ws: Accessor<WebSocket | null>;
+  id: Accessor<string | null>;
+}
+
+export const ConnectForm = (props: ConnectFormProps) => {
   const [text, setText] = createSignal('');
 
   const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
     const ws = props.ws();
-    if (ws) {
-      ws.send(JSON.stringify(createMatchMessage(text())));
+    const id = props.id();
+    if (ws && id) {
+      ws.send(JSON.stringify(createMatchMessage(text(), id)));
     } else {
       throw new Error('Discovery server not connected');
     }
@@ -18,7 +24,7 @@ export const ConnectForm = (props: { ws: Accessor<WebSocket | null> }) => {
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        class="text-bg text-center"
+        class="text-center text-tengrey"
         placeholder="Enter Peer ID"
         value={text()}
         onInput={(e) => setText(e.target.value)}

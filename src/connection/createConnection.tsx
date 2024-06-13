@@ -53,7 +53,6 @@ export const createConnection = () => {
       '/connect',
       import.meta.env.VITE_DISCOVERY_SERVER_URL || 'wss://localhost:3000 '
     );
-    console.log('Connecting to', url.href);
     const _ws = new WebSocket(url);
     setWs(_ws);
 
@@ -66,6 +65,7 @@ export const createConnection = () => {
       if (!event.data) return;
 
       const data = ZWSMessage.passthrough().parse(JSON.parse(event.data));
+      console.log('Got Message', data);
       if (data.type === WSMessageTypes.enum.MATCH) {
         const matchData = ZWSMatchMessage.parse(data);
         setPeerId(matchData.peerId);

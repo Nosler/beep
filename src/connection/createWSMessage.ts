@@ -17,9 +17,10 @@ export function createSignalMessage(
   };
 }
 
-export function createMatchMessage(peerId: string): WSMatchMessage {
+export function createMatchMessage(peerId: string, id: string): WSMatchMessage {
   return {
     type: WSMessageTypes.enum.MATCH,
     peerId,
+    id,
   };
 }
