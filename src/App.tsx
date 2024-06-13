@@ -9,8 +9,8 @@ function App() {
 
   return (
     <div>
-      <TitleBar text="Big Booty Bitches" />
-      <div class="h-[24px]" />
+      <TitleBar text='Beep - Disconnected' />
+      <div class='h-[24px]'></div>
       <div class="blue h-full flex-col justify-center bg-tengrey text-center">
         <div>
           <ConnectForm ws={ws} id={id} />
