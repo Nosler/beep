@@ -1,4 +1,5 @@
 import './SoundButton.css';
+
 interface SoundButtonProps {
   text: string;
 }
