@@ -6,7 +6,7 @@ interface SoundButtonProps {
 export const SoundButton = (props: SoundButtonProps) => {
   return (
     <button
-      class="max-h-20vw min-w-20vw active:mt mt-1 min-h-12 active:mt-3"
+      class="max-h-20vw min-w-20vw min-h-12 relative active:top-2"
       type="submit"
     >
       {props.text}

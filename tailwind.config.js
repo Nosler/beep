@@ -4,7 +4,17 @@ module.exports = {
   ],
   theme: {
     colors: {
-      pink: "#ff00ff"
+      black: "#000000",
+      tengrey: "#1C1C1C",
+      twentygrey: "#444444",
+      cyan: "#00ffff",
+      magenta: "#ff00ff",
+      yellow: "#ffff00",
+      red: "#ff0000",
+      green: "#00ff00",
+      blue: "#0000ff",
+      gross: "#123456",
+      grossmagenta: "#cc11ff",
     },
     extend: {
       spacing: {
