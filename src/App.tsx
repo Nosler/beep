@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div>
-      <TitleBar text='Big Booty Bitches' />
+      <TitleBar text='Beep - Disconnected' />
       <div class='h-[24px]'></div>
       <div class="blue h-full flex-col justify-center bg-tengrey text-center">
         <div>
