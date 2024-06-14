@@ -1,20 +1,16 @@
-import { Accessor, createSignal } from 'solid-js';
+import { createSignal } from 'solid-js';
 import { createMatchMessage } from '../connection/createWSMessage';
+import { useConnection } from '../connection';
 
-interface ConnectFormProps {
-    ws: Accessor<WebSocket | null>;
-    id: Accessor<string | null>;
-}
-
-export const ConnectForm = (props: ConnectFormProps) => {
+export const ConnectForm = () => {
     const [text, setText] = createSignal('');
+    const { ws, id } = useConnection();
 
     const handleSubmit = (e: SubmitEvent) => {
         e.preventDefault();
-        const ws = props.ws();
-        const id = props.id();
-        if (ws && id) {
-            ws.send(JSON.stringify(createMatchMessage(text(), id)));
+        const _id = id();
+        if (_id) {
+            ws()?.send(JSON.stringify(createMatchMessage(text(), _id)));
         } else {
             throw new Error('Discovery server not connected');
         }

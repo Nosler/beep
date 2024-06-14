@@ -68,7 +68,6 @@ export const createConnection = () => {
             console.log('Got Message', data);
             if (data.type === WSMessageTypes.enum.MATCH) {
                 const matchData = ZWSMatchMessage.parse(data);
-                setPeerId(matchData.peerId);
                 handleConnect({
                     setPeer,
                     ws: _ws,
@@ -101,5 +100,5 @@ export const createConnection = () => {
         };
     });
 
-    return { ws, id, isP2PConnected, peer, peerId, isWSConnected };
+    return { ws, id, isP2PConnected, peer, peerId, isWSConnected, setPeerId };
 };
