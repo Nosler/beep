@@ -9,6 +9,9 @@ interface ConnectionContext {
     peer: Accessor<SimplePeer.Instance | null>;
     isWSConnected: Accessor<boolean>;
     setPeerId: Setter<string | null>;
+    pendingRequestId: Accessor<string | null>;
+    acceptRequest: () => void;
+    denyRequest: () => void;
 }
 
 export const connectionContext = createContext<ConnectionContext>();

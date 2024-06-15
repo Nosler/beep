@@ -1,5 +1,6 @@
 import { createEffect, createSignal } from 'solid-js';
 import SimplePeer from 'simple-peer';
+import wrtc from '@roamhq/wrtc';
 import {
     WSMessageTypes,
     ZWSMessage,
@@ -8,8 +9,7 @@ import {
     ZWSIdMessage,
 } from './WSMessageTypes';
 import { createSignalMessage } from './createWSMessage';
-
-interface handleConnectArgs {
+interface createP2PConnectionArgs {
     setPeer: (peer: SimplePeer.Instance) => null;
     ws: WebSocket;
     setIsP2PConnected: (isP2PConnected: boolean) => null;
@@ -18,15 +18,15 @@ interface handleConnectArgs {
     id: string;
 }
 
-const handleConnect = ({
+const createP2PConnection = ({
     setPeer,
     ws,
     setIsP2PConnected,
     initiator,
     peerId,
     id,
-}: handleConnectArgs) => {
-    const peer = new SimplePeer({ initiator, trickle: true });
+}: createP2PConnectionArgs) => {
+    const peer = new SimplePeer({ initiator, trickle: true, wrtc });
     setPeer(peer);
     peer.on('signal', (data) => {
         ws.send(JSON.stringify(createSignalMessage(data, peerId, id)));
@@ -47,6 +47,7 @@ export const createConnection = () => {
     const [peer, setPeer] = createSignal<SimplePeer.Instance | null>(null);
     const [ws, setWs] = createSignal<WebSocket | null>(null);
     const [peerId, setPeerId] = createSignal<string | null>(null);
+    const [pendingRequestId, setPendingRequestId] = createSignal<string | null>(null);
 
     createEffect(() => {
         const url = new URL(
@@ -68,17 +69,10 @@ export const createConnection = () => {
             console.log('Got Message', data);
             if (data.type === WSMessageTypes.enum.MATCH) {
                 const matchData = ZWSMatchMessage.parse(data);
-                handleConnect({
-                    setPeer,
-                    ws: _ws,
-                    setIsP2PConnected,
-                    initiator: true,
-                    peerId: matchData.peerId,
-                    id: id() as string,
-                });
+                setPendingRequestId(matchData.peerId);
             } else if (data.type === WSMessageTypes.enum.SIGNAL && id()) {
                 const signalData = ZWSSignalMessage.parse(data);
-                handleConnect({
+                createP2PConnection({
                     setPeer,
                     ws: _ws,
                     setIsP2PConnected,
@@ -100,5 +94,36 @@ export const createConnection = () => {
         };
     });
 
-    return { ws, id, isP2PConnected, peer, peerId, isWSConnected, setPeerId };
+    const acceptRequest = () => {
+        if (!pendingRequestId() || !ws() || !id()) {
+            throw new Error('Invalid state');
+        }
+        createP2PConnection({
+            setPeer,
+            ws: ws() as WebSocket,
+            setIsP2PConnected,
+            initiator: true,
+            peerId: pendingRequestId() as string,
+            id: id() as string,
+        });
+        setPeerId(pendingRequestId() as string);
+        setPendingRequestId(null);
+    };
+
+    const denyRequest = () => {
+        setPendingRequestId(null);
+    };
+
+    return {
+        ws,
+        id,
+        isP2PConnected,
+        peer,
+        peerId,
+        isWSConnected,
+        setPeerId,
+        pendingRequestId,
+        acceptRequest,
+        denyRequest,
+    };
 };
