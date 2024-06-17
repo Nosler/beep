@@ -1,6 +1,5 @@
 import { createEffect, createSignal } from 'solid-js';
 import SimplePeer from 'simple-peer';
-import wrtc from '@roamhq/wrtc';
 import {
     WSMessageTypes,
     ZWSMessage,
@@ -26,9 +25,13 @@ const createP2PConnection = ({
     peerId,
     id,
 }: createP2PConnectionArgs) => {
-    const peer = new SimplePeer({ initiator, trickle: true, wrtc });
+    const peer = new SimplePeer({
+        initiator,
+        trickle: true,
+    });
     setPeer(peer);
     peer.on('signal', (data) => {
+        console.log('Sending Signal...');
         ws.send(JSON.stringify(createSignalMessage(data, peerId, id)));
     });
     peer.on('connect', () => {
