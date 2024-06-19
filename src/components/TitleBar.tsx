@@ -1,32 +1,33 @@
 import { appWindow } from '@tauri-apps/api/window';
 import { createEffect, createSignal } from 'solid-js';
 import { useConnection } from '../connection';
+import { ConnectionState } from '../connection/connectionState';
 
 interface TitleBarProps {
     text: string;
 }
 
 export const TitleBar = (props: TitleBarProps) => {
-    const [status, setStatus] = createSignal('green');
-    const { isWSConnected, isP2PConnected, peerId } = useConnection();
+    const { status } = useConnection();
 
-    createEffect(() => {
-        if (isP2PConnected()) {
-            setStatus('green');
-        } else if (peerId()) {
-            setStatus('cyan');
-        } else if (isWSConnected()) {
-            setStatus('yellow');
-        } else {
-            setStatus('magenta');
+    const statusColor = () => {
+        switch (status()) {
+            case ConnectionState.Ready:
+                return 'yellow';
+            case ConnectionState.Connected:
+                return 'green';
+            case ConnectionState.Requested:
+                return 'cyan';
+            case ConnectionState.Error:
+                return 'magenta';
         }
-    });
+    };
 
     return (
         <div data-tauri-drag-region class="titlebar">
             <div class="size-[24px] select-none pl-1 pt-1" data-tauri-drag-region>
                 <img
-                    src={`src\\assets\\${status()}.png`}
+                    src={`src\\assets\\${statusColor()}.png`}
                     alt="status"
                     class="pointer-events-none"
                 />

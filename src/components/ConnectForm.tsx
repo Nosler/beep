@@ -4,17 +4,10 @@ import { useConnection } from '../connection';
 
 export const ConnectForm = () => {
     const [text, setText] = createSignal('');
-    const { ws, id, setPeerId } = useConnection();
-
+    const connection = useConnection();
     const handleSubmit = (e: SubmitEvent) => {
         e.preventDefault();
-        const _id = id();
-        if (_id) {
-            ws()?.send(JSON.stringify(createMatchMessage(text(), _id)));
-            setPeerId(text);
-        } else {
-            throw new Error('Discovery server not connected');
-        }
+        connection.sendRequest(text());
     };
 
     return (

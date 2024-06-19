@@ -6,5 +6,6 @@ export const useConnection = () => {
     if (!connection) {
         throw new Error('Could not instantiate connection context');
     }
+
     return connection;
 };
