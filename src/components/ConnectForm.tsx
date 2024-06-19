@@ -1,5 +1,4 @@
 import { createSignal } from 'solid-js';
-import { createMatchMessage } from '../connection/createWSMessage';
 import { useConnection } from '../connection';
 
 export const ConnectForm = () => {

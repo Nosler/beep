@@ -1,5 +1,4 @@
 import { appWindow } from '@tauri-apps/api/window';
-import { createEffect, createSignal } from 'solid-js';
 import { useConnection } from '../connection';
 import { ConnectionState } from '../connection/connectionState';
 
