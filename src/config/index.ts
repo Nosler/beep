@@ -1,3 +1,3 @@
 export * from './configProvider';
 export * from './useConfig';
-export * from './config';
+export type * from './config.d.ts';

@@ -1,9 +1,10 @@
 import cn from 'mxcn';
+import { Button } from '../config';
 
-interface SoundButtonProps {
-    text: string;
-    file?: string;
+interface ClickyButtonProps {
+    button: Button;
     class?: string;
+    action?: (label: string) => void | Promise<void>;
 }
 
 const buttonDefault = `
@@ -16,11 +17,11 @@ shadow-clicky
 const buttonHover = `hover:text-magenta hover:border-magenta`;
 const buttonActive = `active:text-yellow active:border-yellow active:shadow-none active:top-2`;
 
-export const ClickyButton = (props: SoundButtonProps) => {
-    const audio = () => (props.file ? new Audio(props.file) : null);
+export const ClickyButton = (props: ClickyButtonProps) => {
+    const audio = () => (props.button.file ? new Audio(props.button.file) : null);
 
     const play = () => {
-        if (props.file && audio()) {
+        if (props.button.file && audio()) {
             void audio()!.play();
         }
     };
@@ -31,7 +32,7 @@ export const ClickyButton = (props: SoundButtonProps) => {
             type="submit"
             onClick={play}
         >
-            {props.text}
+            {props.button.label}
         </button>
     );
 };

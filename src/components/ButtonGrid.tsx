@@ -10,9 +10,7 @@ export const ButtonGrid = (props: ButtonGridProps) => {
     return (
         <div class="grid grid-rows-1">
             <div class="align-baseline">
-                <For each={props.buttons}>
-                    {(button) => <ClickyButton text={button.text} file={button.file} />}
-                </For>
+                <For each={props.buttons}>{(button) => <ClickyButton button={button} />}</For>
             </div>
         </div>
     );

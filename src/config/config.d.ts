@@ -1,12 +1,17 @@
 import { SetStoreFunction } from 'solid-js/store';
 
-export interface Button {
-    text: string;
+export interface Sound {
+    label: string;
     file: string;
 }
 
+export interface Button {
+    label: string;
+    file?: string;
+}
+
 export interface Config {
-    buttons: Button[];
+    sounds: Sound[];
     token?: string;
     lastConnected?: string;
 }

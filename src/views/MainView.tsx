@@ -15,9 +15,9 @@ export const MainView = () => {
             <div>
                 <ConnectForm />
             </div>
-            <h1>{config.buttons.length}</h1>
+            <h1>{config.sounds.length}</h1>
             <Show when={status() === ConnectionState.Ready || status() === ConnectionState.Error}>
-                <ButtonGrid buttons={config.buttons} />
+                <ButtonGrid buttons={config.sounds} />
             </Show>
 
             {/* Debug Stuff */}
