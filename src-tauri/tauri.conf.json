@@ -26,6 +26,14 @@
       },
       "clipboard": {
         "writeText": true
+      },
+      "fs": {
+        "exists": true,
+        "readFile": true,
+        "writeFile": true
+      },
+      "path": {
+        "all": true
       }
     },
     "windows": [
@@ -51,7 +59,10 @@
         "icons/icon-256.png",
         "icons/icon.icns",
         "icons/icon.ico"
-      ]
+      ],
+      "appimage": {
+        "bundleMediaFramework": true
+      }
     }
   }
 }

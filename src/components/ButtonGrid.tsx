@@ -1,12 +1,19 @@
 import { For } from 'solid-js';
 import { ClickyButton } from './ClickyButton';
+import { Button } from '../config';
 
-export const ButtonGrid = () => (
-    <div class="grid grid-rows-1">
-        <div class="align-baseline">
-            <For each={['1', '2', '3', '4', '5', '6', '7', '8']}>
-                {(num) => <ClickyButton text={num} />}
-            </For>
+interface ButtonGridProps {
+    buttons: Button[];
+}
+
+export const ButtonGrid = (props: ButtonGridProps) => {
+    return (
+        <div class="grid grid-rows-1">
+            <div class="align-baseline">
+                <For each={props.buttons}>
+                    {(button) => <ClickyButton text={button.text} file={button.file} />}
+                </For>
+            </div>
         </div>
-    </div>
-);
+    );
+};

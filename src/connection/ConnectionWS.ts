@@ -1,13 +1,16 @@
 import { Connection } from './connection';
 import {
-    ZWSMatchMessage,
-    ZWSIdMessage,
-    ZWSMessage,
-    WSMatchMessage,
-    WSIdMessage,
+    ZMatchMessage,
+    ZIdMessage,
+    ZMessage,
+    MatchMessage,
+    IdMessage,
     SendableMessage,
     Out,
-} from './WSMessageTypes';
+    MessageTypes,
+    RequestMessage,
+    ZRequestMessage,
+} from './messages/messageValidators';
 
 export class ConnectionWS {
     private ws!: WebSocket;
@@ -55,26 +58,36 @@ export class ConnectionWS {
 
     private handleMessage(event: MessageEvent<string>) {
         if (!event.data) return;
-        const data = ZWSMessage.passthrough().parse(JSON.parse(event.data));
+        const data = ZMessage.passthrough().parse(JSON.parse(event.data));
         switch (data.type) {
-            case 'MATCH':
-                this.handleMatch(ZWSMatchMessage.parse(data));
+            case MessageTypes.enum.MATCH:
+                this.handleMatch(ZMatchMessage.parse(data));
+                return;
+            case 'REQUEST':
+                this.handleRequest(ZRequestMessage.parse(data));
                 return;
             case 'ID':
-                this.handleId(ZWSIdMessage.parse(data));
+                this.handleId(ZIdMessage.parse(data));
                 return;
         }
         console.error('Unknown message format', data);
     }
 
-    private handleMatch(data: WSMatchMessage) {
+    private handleRequest(data: RequestMessage) {
+        if (data.peerId !== this.connection.id()) {
+            throw new Error('Mismatched ID');
+        }
+        this.connection.handleRequest(data.id);
+    }
+
+    private handleMatch(data: MatchMessage) {
         if (data.peerId !== this.connection.id()) {
             throw new Error('Mismatched ID');
         }
         this.connection.handleMatch(data.id);
     }
 
-    private handleId(data: WSIdMessage) {
+    private handleId(data: IdMessage) {
         this.connection.handleId(data.id);
     }
 
