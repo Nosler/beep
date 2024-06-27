@@ -7,11 +7,12 @@ interface ButtonGridProps {
 }
 
 export const ButtonGrid = (props: ButtonGridProps) => {
+    const rows = () => Math.floor(props.buttons.length / 3);
     return (
-        <div class="grid grid-rows-1">
-            <div class="align-baseline">
-                <For each={props.buttons}>{(button) => <ClickyButton button={button} />}</For>
-            </div>
+        <div class={`grid grid-cols-3 grid-rows-${rows} `}>
+            <For each={props.buttons}>
+                {(button) => <ClickyButton button={button} class="h-1" />}
+            </For>
         </div>
     );
 };

@@ -4,7 +4,9 @@ module.exports = {
   ],
   theme: {
     colors: {
+      white: "#FFFFFF",
       black: "#000000",
+      fivegrey: "#0F0F0F",
       tengrey: "#1C1C1C",
       twentygrey: "#444444",
       cyan: "#00ffff",
@@ -27,5 +29,12 @@ module.exports = {
       }
     }
   },
-  plugins: []
+  plugins: [],
+  safelist: [{
+    pattern: /border-+/
+  },
+  {
+    pattern: /text-+/
+  }
+  ]
 }

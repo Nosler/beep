@@ -16,7 +16,7 @@ body {
     color: #f6f6f6;
     width: 100%;
     height: calc(100% - 24px);
-    background-color: rgb(26, 26, 26);
+    background-color: rgb(0, 0, 0);
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -62,4 +62,35 @@ body {
 }
 .titlebar-button:active {
     background: #ffff00;
+}
+
+.slider-square-thumb::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: white;
+    border-style: solid;
+    border-width: 1px;
+    background: black; /* Tailwind's gray-700 */
+    cursor: pointer;
+  }
+  
+.slider-square-thumb::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #4A5568; /* Tailwind's gray-700 */
+  cursor: pointer;
+}
+
+.slider-square-thumb::-webkit-slider-thumb:hover {
+  border: magenta;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.slider-square-thumb::-webkit-slider-thumb:active {
+  border: yellow;
+  border-style: solid;
+  border-width: 1px;
 }

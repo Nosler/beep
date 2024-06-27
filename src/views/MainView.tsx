@@ -1,4 +1,4 @@
-import { Show } from 'solid-js';
+import { createSignal, For, Match, Show, Switch } from 'solid-js';
 import { ButtonGrid } from '../components/ButtonGrid';
 import { ConnectForm } from '../components/ConnectForm';
 import { useConnection } from '../connection';
@@ -6,37 +6,79 @@ import { writeText } from '@tauri-apps/api/clipboard';
 import { ConnectionState } from '../connection/connectionState';
 import { useConfig } from '../config';
 import { ClickyButton } from '../components/ClickyButton';
+import { PeerTab } from './PeerTab';
+import { SelfTab } from './SelfTab';
+import { TabButton } from '../components/TabButton';
+
+const tabs = [{title:"PEER", color:"cyan"}, {title:"SELF", color:"magenta"}, {title:"CONF", color:"yellow"}];
 
 export const MainView = () => {
     const { config } = useConfig();
     const { id, peers, pendingPeerId, status, acceptRequest } = useConnection();
+    const [isLocal, setIsLocal] = createSignal(false);
+    const [tabIndex, setTabIndex] = createSignal(0);
 
     return (
-        <div class="blue h-full flex-col justify-center bg-tengrey text-center">
-            <div id='peer_data' class='border border-dashed border-twentygrey h-50 p-3 m-3'>
+        <div class="blue h-full max-w-full flex-col justify-center bg-black text-center">
+            <div
+                id="top_bar"
+                class="m-3 h-12 border border-dashed border-twentygrey bg-tengrey px-1 py-1.5"
+            >
+                <div class="flex w-full items-center justify-around">
+                    <For each={tabs}>
+                        {(item,index)=><TabButton title={item.title} color={item.color} active={tabIndex() == index()} onClick={()=>setTabIndex(index)} />}
+                    </For>
+                    <input
+                        id="default-range"
+                        type="range"
+                        value="100"
+                        class="w-1/3 shrink slider-square-thumb border-white cursor-pointer appearance-none rounded-none border bg-black p-1.5"
+                    />
+                </div>
+            </div>
+            <div
+                id="peer_data"
+                class="h-50 m-3 hidden border border-dashed border-twentygrey bg-tengrey p-3"
+            >
                 <div>
-                    <div class='mb-12'>
-                        <ClickyButton class='float-left w-3 h-1' button={config.sounds[0]}/>
+                    <div class="mb-12">
+                        <ClickyButton class="float-left h-1 w-3" button={config.sounds[0]} />
                         <ConnectForm />
                     </div>
-                    <Show when={status() === ConnectionState.Ready || status() === ConnectionState.Error}>
-                        <ButtonGrid buttons={[config.sounds[0],config.sounds[0],config.sounds[0],config.sounds[0],config.sounds[0],config.sounds[0]]} />
+                    <Show
+                        when={
+                            status() === ConnectionState.Ready || status() === ConnectionState.Error
+                        }
+                    >
+                        <ButtonGrid
+                            buttons={[
+                                config.sounds[0],
+                                config.sounds[0],
+                                config.sounds[0],
+                                config.sounds[0],
+                                config.sounds[0],
+                                config.sounds[0],
+                            ]}
+                        />
                     </Show>
                 </div>
             </div>
-            <div id='self_data' class='border border-dashed border-twentygrey h-50 p-3 m-3'>
-                <ButtonGrid buttons={[config.sounds[0],config.sounds[0],config.sounds[0],config.sounds[0],config.sounds[0],config.sounds[0]]} />
-            </div>
-            <div id='self_data' class='border border-dashed border-twentygrey h-14 py-2 m-3'>
-            <label for="Toggle4" class="float-left ml-4 inline-flex border-magenta peer-checked:dark:border-yellow items-center cursor-pointer">
-                    <input id="Toggle4" type="checkbox" class="hidden peer"/>
-                    <span class="px-3 py-1 border dark:bg-black peer-checked:border-dashed">LOCAL</span>
-                    <span class="px-3 py-1 border-dashed dark:bg-black peer-checked:dark:bg-black">INTERNET</span>
-                </label>
+            <div class="h-50 m-3 border border-dashed border-twentygrey bg-tengrey p-2">
+                <Switch>
+                    <Match when={tabIndex() == 0}>
+                        <PeerTab />
+                    </Match>
+                    <Match when={tabIndex() == 1}>
+                        <SelfTab />
+                    </Match>
+                    <Match when={tabIndex() == 2}>
+                        <div></div>
+                    </Match>
+                </Switch>
             </div>
 
             {/* Debug Stuff */}
-            <div class="hidden mr-3 mt-1.5 text-right text-xs opacity-60">
+            <div class="mr-3 mt-1.5 hidden text-right text-xs opacity-60">
                 <span>
                     Discovery server:{' '}
                     {status() === ConnectionState.Ready ? 'Connected' : 'Disconnected'}
