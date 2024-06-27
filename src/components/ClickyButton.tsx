@@ -10,7 +10,8 @@ interface ClickyButtonProps {
 const buttonDefault = `
 bg-black rounded-none text-white font-medium transition-colors duration-100
 border-solid border-white border
-mx-1 mt-1 mb-3
+mx-1 mt-1 mb-2
+px-4
 relative max-h-20vw min-h-12 min-w-20vw
 shadow-clicky
 `;
