@@ -12,10 +12,6 @@ export const PeerTab = () => {
 
     return (
         <div>
-            <div class="mb-12">
-                <ClickyButton class="float-left h-1 w-3" button={config.sounds[0]} />
-                <ConnectForm />
-            </div>
             <Show when={status() === ConnectionState.Ready || status() === ConnectionState.Error}>
                 <ButtonGrid
                     buttons={[
@@ -28,6 +24,10 @@ export const PeerTab = () => {
                     ]}
                 />
             </Show>
+            <div class="mt-2 flex w-full items-center justify-around">
+                <ConnectForm/>
+                <button class='border pt-1 ml-2 w-1/2 bg-black border-solid border-whitegrey border-width-1'>CONNECT</button>
+            </div>
         </div>
     );
 };

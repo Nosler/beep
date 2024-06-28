@@ -13,7 +13,7 @@ export const ConnectForm = () => {
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
-                class="text-center text-tengrey"
+                class="text-center text-tengre bg-white"
                 placeholder="Enter Peer ID"
                 value={text()}
                 onInput={(e) => setText(e.target.value)}

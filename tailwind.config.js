@@ -9,12 +9,19 @@ module.exports = {
       fivegrey: "#0F0F0F",
       tengrey: "#1C1C1C",
       twentygrey: "#444444",
+      thirtygrey: "#777777",
       cyan: "#00ffff",
       magenta: "#ff00ff",
       yellow: "#ffff00",
       red: "#ff0000",
       green: "#00ff00",
       blue: "#0000ff",
+      darkcyan: "#00aaaa",
+      darkmagenta: "#aa00aa",
+      darkyellow: "#aaaa00",
+      darkred: "#aa0000",
+      darkgreen: "#00aa00",
+      darkblue: "#0000aa",
       gross: "#123456",
       grossmagenta: "#cc11ff",
     },
@@ -35,6 +42,12 @@ module.exports = {
   },
   {
     pattern: /text-+/
-  }
+  },
+  {
+    pattern: /hover:border-+/
+  },
+  {
+    pattern: /hover:text-+/
+  },
   ]
 }

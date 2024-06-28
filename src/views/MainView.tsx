@@ -10,7 +10,7 @@ import { PeerTab } from './PeerTab';
 import { SelfTab } from './SelfTab';
 import { TabButton } from '../components/TabButton';
 
-const tabs = [{title:"PEER", color:"cyan"}, {title:"SELF", color:"magenta"}, {title:"CONF", color:"yellow"}];
+const tabs = [{title:"PEER", color:"cyan", hovercolor:"darkcyan"}, {title:"SELF", color:"magenta", hovercolor:"darkmagenta"}, {title:"CONF", color:"yellow", hovercolor:"darkyellow"}];
 
 export const MainView = () => {
     const { config } = useConfig();
@@ -26,7 +26,7 @@ export const MainView = () => {
             >
                 <div class="flex w-full items-center justify-around">
                     <For each={tabs}>
-                        {(item,index)=><TabButton title={item.title} color={item.color} active={tabIndex() == index()} onClick={()=>setTabIndex(index)} />}
+                        {(item,index)=><TabButton title={item.title} color={item.color} hovercolor={item.hovercolor} active={tabIndex() == index()} onClick={()=>setTabIndex(index)} />}
                     </For>
                     <input
                         id="default-range"
@@ -36,33 +36,7 @@ export const MainView = () => {
                     />
                 </div>
             </div>
-            <div
-                id="peer_data"
-                class="h-50 m-3 hidden border border-dashed border-twentygrey bg-tengrey p-3"
-            >
-                <div>
-                    <div class="mb-12">
-                        <ClickyButton class="float-left h-1 w-3" button={config.sounds[0]} />
-                        <ConnectForm />
-                    </div>
-                    <Show
-                        when={
-                            status() === ConnectionState.Ready || status() === ConnectionState.Error
-                        }
-                    >
-                        <ButtonGrid
-                            buttons={[
-                                config.sounds[0],
-                                config.sounds[0],
-                                config.sounds[0],
-                                config.sounds[0],
-                                config.sounds[0],
-                                config.sounds[0],
-                            ]}
-                        />
-                    </Show>
-                </div>
-            </div>
+            
             <div class="h-50 m-3 border border-dashed border-twentygrey bg-tengrey p-2">
                 <Switch>
                     <Match when={tabIndex() == 0}>
