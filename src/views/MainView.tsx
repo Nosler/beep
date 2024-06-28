@@ -8,6 +8,7 @@ import { useConfig } from '../config';
 import { ClickyButton } from '../components/ClickyButton';
 import { PeerTab } from './PeerTab';
 import { SelfTab } from './SelfTab';
+import { ConfigTab } from './ConfigTab';
 import { TabButton } from '../components/TabButton';
 
 const tabs = [{title:"PEER", color:"cyan", hovercolor:"darkcyan"}, {title:"SELF", color:"magenta", hovercolor:"darkmagenta"}, {title:"CONF", color:"yellow", hovercolor:"darkyellow"}];
@@ -46,7 +47,7 @@ export const MainView = () => {
                         <SelfTab />
                     </Match>
                     <Match when={tabIndex() == 2}>
-                        <div></div>
+                        <ConfigTab />
                     </Match>
                 </Switch>
             </div>

@@ -16,12 +16,12 @@ module.exports = {
       red: "#ff0000",
       green: "#00ff00",
       blue: "#0000ff",
-      darkcyan: "#00aaaa",
-      darkmagenta: "#aa00aa",
-      darkyellow: "#aaaa00",
-      darkred: "#aa0000",
-      darkgreen: "#00aa00",
-      darkblue: "#0000aa",
+      darkcyan: "#009999",
+      darkmagenta: "#990099",
+      darkyellow: "#999900",
+      darkred: "#990000",
+      darkgreen: "#009900",
+      darkblue: "#000099",
       gross: "#123456",
       grossmagenta: "#cc11ff",
     },
@@ -38,16 +38,12 @@ module.exports = {
   },
   plugins: [],
   safelist: [{
-    pattern: /border-+/
+    pattern: /border-+/,
+    variants: ["hover"]
   },
   {
-    pattern: /text-+/
-  },
-  {
-    pattern: /hover:border-+/
-  },
-  {
-    pattern: /hover:text-+/
+    pattern: /text-+/,
+    variants: ["hover"]
   },
   ]
 }
