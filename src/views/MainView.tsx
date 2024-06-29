@@ -5,16 +5,20 @@ import { useConnection } from '../connection';
 import { writeText } from '@tauri-apps/api/clipboard';
 import { ConnectionState } from '../connection/connectionState';
 import { useConfig } from '../config';
-import { ClickyButton } from '../components/ClickyButton';
 import { PeerTab } from './PeerTab';
 import { SelfTab } from './SelfTab';
 import { ConfigTab } from './ConfigTab';
 import { TabButton } from '../components/TabButton';
+import { VolumeSlider } from '../components/VolumeSlider';
 
-const tabs = [{title:"PEER", color:"cyan", hovercolor:"darkcyan"}, {title:"SELF", color:"magenta", hovercolor:"darkmagenta"}, {title:"CONF", color:"yellow", hovercolor:"darkyellow"}];
+const tabs = [
+    { title: 'PEER', color: 'cyan', hovercolor: 'darkcyan' },
+    { title: 'SELF', color: 'magenta', hovercolor: 'darkmagenta' },
+    { title: 'CONF', color: 'yellow', hovercolor: 'darkyellow' },
+];
 
 export const MainView = () => {
-    const { config } = useConfig();
+    const { config, setConfig } = useConfig();
     const { id, peers, pendingPeerId, status, acceptRequest } = useConnection();
     const [isLocal, setIsLocal] = createSignal(false);
     const [tabIndex, setTabIndex] = createSignal(0);
@@ -27,17 +31,20 @@ export const MainView = () => {
             >
                 <div class="flex w-full items-center justify-around">
                     <For each={tabs}>
-                        {(item,index)=><TabButton title={item.title} color={item.color} hovercolor={item.hovercolor} active={tabIndex() == index()} onClick={()=>setTabIndex(index)} />}
+                        {(item, index) => (
+                            <TabButton
+                                title={item.title}
+                                color={item.color}
+                                hovercolor={item.hovercolor}
+                                active={tabIndex() == index()}
+                                onClick={() => setTabIndex(index)}
+                            />
+                        )}
                     </For>
-                    <input
-                        id="default-range"
-                        type="range"
-                        value="100"
-                        class="w-1/3 shrink slider-square-thumb border-white cursor-pointer appearance-none rounded-none border bg-black p-1.5"
-                    />
+                    <VolumeSlider />
                 </div>
             </div>
-            
+
             <div class="h-50 m-3 border border-dashed border-twentygrey bg-tengrey p-2">
                 <Switch>
                     <Match when={tabIndex() == 0}>
@@ -53,6 +60,7 @@ export const MainView = () => {
             </div>
 
             {/* Debug Stuff */}
+            <span>{config.volume}</span>
             <div class="mr-3 mt-1.5 hidden text-right text-xs opacity-60">
                 <span>
                     Discovery server:{' '}

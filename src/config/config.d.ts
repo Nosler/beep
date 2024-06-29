@@ -12,6 +12,7 @@ export interface Button {
 
 export interface Config {
     sounds: Sound[];
+    volume: number;
     token?: string;
     lastConnected?: string;
 }

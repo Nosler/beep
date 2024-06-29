@@ -25,8 +25,10 @@ export const PeerTab = () => {
                 />
             </Show>
             <div class="mt-2 flex w-full items-center justify-around">
-                <ConnectForm/>
-                <button class='border pt-1 ml-2 w-1/2 bg-black border-solid border-whitegrey border-width-1'>CONNECT</button>
+                <ConnectForm />
+                <button class="border-whitegrey border-width-1 ml-2 w-1/2 border border-solid bg-black pt-1">
+                    CONNECT
+                </button>
             </div>
         </div>
     );
