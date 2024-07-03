@@ -1,14 +1,15 @@
 import { JSX } from 'solid-js';
 import { useConfig } from '../config';
-import Pikmin from '../assets/pikmin-gcn.mp3';
+import VolumeClick from '../assets/fader_click.mp3';
 
 export const VolumeSlider = () => {
     const { config, setConfig } = useConfig();
-    const audio = new Audio(Pikmin);
+    const audio = new Audio(VolumeClick);
+    audio.preload = 'auto';
     const onInput: JSX.EventHandler<HTMLInputElement, Event> = (e) => {
         const volume = +e.currentTarget.value;
         audio.volume = volume;
-        audio.play();
+        audio.play().catch(err => handle(err));
         setConfig((c) => ({ ...c, volume }));
     };
     return (
@@ -24,3 +25,7 @@ export const VolumeSlider = () => {
         />
     );
 };
+function handle(err: any): any {
+    throw new Error('Function not implemented.');
+}
+
