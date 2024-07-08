@@ -29,9 +29,4 @@ export default defineConfig(async () => ({
             ignored: ['**/src-tauri/**'],
         },
     },
-    resolve: {
-        alias: {
-            'simple-peer': 'simple-peer/simplepeer.min.js',
-        },
-    },
 }));

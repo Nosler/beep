@@ -1,10 +1,12 @@
 import cn from 'mxcn';
-import { Button } from '../config';
+import { useConnection } from '../connection';
 
 interface ClickyButtonProps {
-    button: Button;
+    label: string;
+    index: number;
     class?: string;
     action?: (label: string) => void | Promise<void>;
+    peerId?: string;
 }
 
 const buttonDefault = `
@@ -19,11 +21,12 @@ const buttonHover = `hover:text-magenta hover:border-magenta`;
 const buttonActive = `active:text-yellow active:border-yellow active:shadow-none active:top-2`;
 
 export const ClickyButton = (props: ClickyButtonProps) => {
-    const audio = () => (props.button.file ? new Audio(props.button.file) : null);
-
+    const { click, handleClick } = useConnection();
     const play = () => {
-        if (props.button.file && audio()) {
-            void audio()!.play();
+        if (props.peerId) {
+            void click(props.peerId, props.index);
+        } else {
+            handleClick(props.index);
         }
     };
 
@@ -33,7 +36,7 @@ export const ClickyButton = (props: ClickyButtonProps) => {
             type="submit"
             onClick={play}
         >
-            {props.button.label}
+            {props.label}
         </button>
     );
 };

@@ -6,16 +6,7 @@ export const SelfTab = () => {
 
     return (
         <div>
-            <ButtonGrid
-                buttons={[
-                    config.sounds[0],
-                    config.sounds[0],
-                    config.sounds[0],
-                    config.sounds[0],
-                    config.sounds[0],
-                    config.sounds[0],
-                ]}
-            />
+            <ButtonGrid buttons={config.sounds} />
         </div>
     );
 };

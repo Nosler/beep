@@ -1,3 +1,5 @@
+import { Button } from '../config';
+
 export const enum ConnectionState {
     Error,
     Ready,
@@ -15,5 +17,13 @@ export const enum ConnectionType {
 
 export interface Peer {
     id: string;
+    /**
+     * Peer is [type] to you.
+     */
     type: ConnectionType;
+}
+
+export interface Listener extends Peer {
+    type: ConnectionType.Listening;
+    sounds: Button[];
 }

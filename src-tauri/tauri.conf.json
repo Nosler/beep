@@ -28,9 +28,16 @@
         "writeText": true
       },
       "fs": {
+        "scope": [
+          "$RESOURCE/**/*",
+          "$APPCONFIG/*",
+          "$HOME/**/*",
+          "$CONFIG/**/*"
+        ],
         "exists": true,
         "readFile": true,
-        "writeFile": true
+        "writeFile": true,
+        "createDir": true
       },
       "path": {
         "all": true
@@ -62,7 +69,10 @@
       ],
       "appimage": {
         "bundleMediaFramework": true
-      }
+      },
+      "resources": [
+        "resources/*.mp3"
+      ]
     }
   }
 }

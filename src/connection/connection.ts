@@ -1,40 +1,49 @@
 import { Accessor, Setter, createSignal } from 'solid-js';
-import { ConnectionWS } from './ConnectionWS';
+import { ConnectionWS } from './connectionWS';
 import { Out, SendableMessage } from './messages/messageValidators';
 import { ConnectionState, ConnectionType, Peer } from './connectionState';
-import { createMatchMessage, createRequestMessage } from './messages';
+import { createClickMessage, createMatchMessage, createRequestMessage } from './messages';
+import Logger from 'js-logger';
 
 export class Connection {
     private ws: ConnectionWS;
     public id: Accessor<string | undefined>;
     private setId: Setter<string | undefined>;
-    public peers: Accessor<Peer[]>;
-    private setPeers: Setter<Peer[]>;
+    public peers: Accessor<Record<string, Peer>>;
+    private setPeers: Setter<Record<string, Peer>>;
     public pendingPeerId: Accessor<string | undefined>;
     private setPendingPeerId: Setter<string | undefined>;
     private requestedPeerId?: string;
     public status: Accessor<ConnectionState> = () => this._status();
+    private playSound: (index: number) => void;
 
-    constructor() {
+    constructor(playSound: (index: number) => void) {
         this.ws = new ConnectionWS(this);
         const [id, setId] = createSignal<string | undefined>(undefined);
         this.id = id;
         this.setId = setId;
-        const [peers, setPeers] = createSignal<Peer[]>([]);
+        const [peers, setPeers] = createSignal<Record<string, Peer>>({});
         this.peers = peers;
         this.setPeers = setPeers;
         const [pendingPeerId, setPendingPeerId] = createSignal<string | undefined>(undefined);
         this.pendingPeerId = pendingPeerId;
         this.setPendingPeerId = setPendingPeerId;
+        this.playSound = playSound;
+        Logger.debug('Connection created.');
     }
 
     public handleId = (id: string) => {
         this.setId(id);
     };
 
-    public handleMatch = (peerId: string) => {
+    public handleMatch = (peerId: string, buttons: string[]) => {
         if (this.status() === ConnectionState.Requested) {
-            this.setPeers([...this.peers(), { id: peerId, type: ConnectionType.Sending }]);
+            const newPeer = {
+                id: peerId,
+                type: ConnectionType.Listening,
+                sounds: buttons.map((i) => ({ label: i })),
+            };
+            this.setPeers({ ...this.peers(), peerId: newPeer });
             this.requestedPeerId = undefined;
         } else {
             // TODO reject
@@ -49,12 +58,16 @@ export class Connection {
         }
     };
 
+    public handleClick = (index: number) => {
+        this.playSound(index);
+    };
+
     public cleanup = () => {
         this.ws.cleanup();
     };
 
     private send(data: Out<SendableMessage>) {
-        console.log(data);
+        Logger.debug('Sending ', data);
         this.ws.send(data);
     }
 
@@ -75,13 +88,17 @@ export class Connection {
         this.send(createRequestMessage(id));
     };
 
-    public acceptRequest = () => {
+    public acceptRequest = (buttons: string[]) => {
         if (!this.pendingPeerId()) {
             throw new Error('Unexpected State');
         }
-        const newPeer: Peer = { id: this.pendingPeerId()!, type: ConnectionType.Listening };
-        this.setPeers([...this.peers(), newPeer]);
+        const newPeer: Peer = { id: this.pendingPeerId()!, type: ConnectionType.Sending };
+        this.setPeers({ ...this.peers(), [newPeer.id]: newPeer });
         this.setPendingPeerId(undefined);
-        this.send(createMatchMessage(newPeer.id));
+        this.send(createMatchMessage(newPeer.id, buttons));
+    };
+
+    public click = (peerId: string, button: number) => {
+        this.send(createClickMessage(peerId, button));
     };
 }
