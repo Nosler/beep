@@ -41,11 +41,15 @@ export class ConnectionWS {
                 resolve();
             };
             this.ws.onmessage = this.handleMessage.bind(this);
-            this.ws.onerror = () => reject(new Error('WebSocket error'));
+            this.ws.onerror = () => reject(Logger.error('WebSocket error'));
+            this.ws.onclose = () => {
+                Logger.error('WebSocket closed');
+                void this.connectWithRetries();
+            };
         });
     }
 
-    private async connectWithRetries(maxRetries: number = 3, delayMs: number = 250): Promise<void> {
+    private async connectWithRetries(maxRetries: number = 3, delayMs: number = 500): Promise<void> {
         let retries = 0;
 
         while (retries < maxRetries) {
