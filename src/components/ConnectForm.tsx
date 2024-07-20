@@ -6,17 +6,25 @@ export const ConnectForm = () => {
     const connection = useConnection();
     const handleSubmit = (e: SubmitEvent) => {
         e.preventDefault();
-        connection.sendRequest(text());
+        if (text().length > 6) {
+            // TODO proper ids
+            connection.sendRequest(text());
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} class="mt-2 flex w-full items-center justify-around gap-2">
             <input
                 type="text"
-                class="text-center text-tengre bg-white"
+                class="bg-white text-center text-tengrey"
                 placeholder="Enter Peer ID"
                 value={text()}
                 onInput={(e) => setText(e.target.value)}
+            />
+            <input
+                class="border-whitegrey border-width-1 shrink grow border border-solid bg-black pt-1"
+                type="submit"
+                value="CONNECT"
             />
         </form>
     );

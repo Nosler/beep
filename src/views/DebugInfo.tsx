@@ -1,5 +1,5 @@
-import { Show } from 'solid-js';
-import { ConnectionState } from '../connection/connectionState';
+import { For, Show } from 'solid-js';
+import { ConnectionState, ConnectionType, Listener, Peer } from '../connection/connectionState';
 import { useConnection } from '../connection';
 import { useConfig } from '../config';
 import { writeText } from '@tauri-apps/api/clipboard';
@@ -13,7 +13,7 @@ function replaceSound<T>(key: string, value: T) {
 
 export const DebugInfo = () => {
     const { config } = useConfig();
-    const { id, peers, pendingPeerId, status, acceptRequest } = useConnection();
+    const { id, peers, status } = useConnection();
     return (
         <div class="">
             <div class="mr-3 mt-1.5 flex flex-col text-left text-xs opacity-60">
@@ -27,17 +27,21 @@ export const DebugInfo = () => {
                     {status() === ConnectionState.Ready ? 'Connected' : 'Disconnected'}
                 </span>
                 <span onClick={() => void writeText(id() as string)}>Id: {id()}</span>
-                <span>Peer Id: {peers()[0]?.id}</span>
-            </div>
-            <Show when={pendingPeerId()}>
-                <div class="h-100 flex flex-col gap-1">
-                    <span>Request from {pendingPeerId()}</span>
-                    <button onClick={() => acceptRequest(Object.keys(config.sounds))}>
-                        Accept
-                    </button>
-                    <button>Deny</button>
+                <span>Peers:</span>
+                <div class="flex-col">
+                    <For each={peers()}>
+                        {(peer) => (
+                            <div class="flex w-full gap-1">
+                                <span>Id: {peer.id}</span>
+                                <span>Type: {peer.type}</span>
+                                <Show when={peer.type === ConnectionType.Listening}>
+                                    <span>Sounds: {(peer as Listener).sounds.length}</span>
+                                </Show>
+                            </div>
+                        )}
+                    </For>
                 </div>
-            </Show>
+            </div>
         </div>
     );
 };

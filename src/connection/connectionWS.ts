@@ -64,35 +64,42 @@ export class ConnectionWS {
     }
 
     private handleMessage(event: MessageEvent<string>) {
-        Logger.debug('Received message', event.data);
-        if (!event.data) return;
+        if (!event.data) {
+            Logger.warn('Received unknown message', event.data);
+            return;
+        }
         const data = ZMessage.passthrough().parse(JSON.parse(event.data));
+        Logger.info('Received message', data);
         switch (data.type) {
             case MessageTypes.enum.MATCH:
                 this.handleMatch(ZMatchMessage.parse(data));
-                return;
+                break;
             case MessageTypes.enum.REQUEST:
                 this.handleRequest(ZRequestMessage.parse(data));
-                return;
+                break;
             case MessageTypes.enum.ID:
                 this.handleId(ZIdMessage.parse(data));
-                return;
+                break;
             case MessageTypes.enum.CLICK:
                 this.handleClick(ZClickMessage.parse(data));
-                return;
+                break;
             case MessageTypes.enum.ERROR:
                 Logger.error('Received error message', data);
-                return;
+                break;
             default:
                 Logger.warn('Unknown message format', data);
+                return;
         }
+        Logger.info('Received message', data);
     }
 
     private handleClick(data: ClickMessage) {
-        if (!(data.peerId in this.connection.peers)) {
-            throw new Error('Mismatched ID');
-        }
-        if (this.connection.peers()[data.peerId].type !== ConnectionType.Sending) {
+        if (
+            !this.connection
+                .peers()
+                .filter((p) => p.id === data.peerId)
+                .some((p) => p.type === ConnectionType.Sending)
+        ) {
             Logger.warn('Received click message from non-sending peer');
             return;
         }
@@ -107,10 +114,13 @@ export class ConnectionWS {
     }
 
     private handleMatch(data: MatchMessage) {
-        if (data.peerId !== this.connection.id()) {
+        if (data.id !== this.connection.id() || data.peerId !== this.connection.requestedPeerId) {
+            Logger.error(
+                `Mismatched I:\nDataId: ${data.id}, Id: ${this.connection.id()}\nDataPeerId: ${data.peerId}, PendingPeerId: ${this.connection.pendingPeerId()}`
+            );
             throw new Error('Mismatched ID');
         }
-        this.connection.handleMatch(data.id, data.buttons);
+        this.connection.handleMatch(data.peerId, data.buttons);
     }
 
     private handleId(data: IdMessage) {

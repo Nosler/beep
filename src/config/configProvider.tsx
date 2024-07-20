@@ -43,7 +43,6 @@ export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] })
         source.buffer = buffer;
         const gainNode = audioContext().createGain();
         gainNode.gain.value = volume !== undefined ? volume : config.volume;
-        console.log(gainNode.gain.value);
         source.connect(gainNode);
         gainNode.connect(audioContext().destination);
         source.start(0);

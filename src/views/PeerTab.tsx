@@ -1,31 +1,44 @@
-import { Show, createEffect } from 'solid-js';
-import { ButtonGrid } from '../components/ButtonGrid';
+import { For, Show, createEffect, createSignal } from 'solid-js';
 import { ConnectForm } from '../components/ConnectForm';
-import { useConnection, ConnectionState, ConnectionType, Listener } from '../connection';
+import { useConnection, ConnectionState, ConnectionType } from '../connection';
 import Logger from 'js-logger';
+import { AcceptGrid } from '../components/AcceptGrid';
+import { ListenerView } from './ListenerView';
 
 export const PeerTab = () => {
-    const { status, peers } = useConnection();
+    const { status, peers, pendingPeerId } = useConnection();
+    const [currentPeerIdx, setCurrentPeerIdx] = createSignal<number | null>(null);
+
+    createEffect(() => {
+        if (currentPeerIdx() === null && peers().length) {
+            if (peers()[0].type === ConnectionType.Listening) {
+                setCurrentPeerIdx(0);
+                return;
+            }
+        } else if (currentPeerIdx() !== null && !peers().length) {
+            setCurrentPeerIdx(null);
+        }
+    });
 
     createEffect(() => {
         Logger.info('PeerTab mounted');
     });
     return (
         <div>
-            <div class="mt-2 flex w-full items-center justify-around">
+            <Show when={status() >= ConnectionState.Ready}>
                 <ConnectForm />
-                <button class="border-whitegrey border-width-1 ml-2 w-1/2 border border-solid bg-black pt-1">
-                    CONNECT
-                </button>
-            </div>
-            <Show
-                when={
-                    status() === ConnectionState.Connected &&
-                    peers()[0]?.type === ConnectionType.Listening
-                }
-            >
-                <ButtonGrid buttons={(peers()[0] as Listener).sounds} peerId={peers()[0].id} />
             </Show>
+
+            <Show when={status() === ConnectionState.Ready && pendingPeerId()}>
+                <AcceptGrid />
+            </Show>
+            <For each={peers()}>
+                {(peer, idx) => (
+                    <Show when={peer.type === ConnectionType.Listening}>
+                        <ListenerView peerIdx={idx()} />
+                    </Show>
+                )}
+            </For>
         </div>
     );
 };

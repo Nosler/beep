@@ -7,7 +7,6 @@ export interface Button {
 export interface Sound extends Button {
     file: string;
     buffer?: AudioBuffer;
-    isResource?: boolean;
 }
 export interface Config {
     sounds: Sound[];

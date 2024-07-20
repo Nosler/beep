@@ -1,12 +1,21 @@
 import { Button } from '../config';
 
 export const enum ConnectionState {
+    /**
+     * When you're not connected to the server.
+     */
     Error,
+    /**
+     * Connected to server and waiting for a peer to request.
+     */
     Ready,
     /**
      * When you're waiting for a reply.
      */
     Requested,
+    /**
+     * When you're connected to a peer.
+     */
     Connected,
 }
 

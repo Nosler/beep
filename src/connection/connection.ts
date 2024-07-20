@@ -9,11 +9,11 @@ export class Connection {
     private ws: ConnectionWS;
     public id: Accessor<string | undefined>;
     private setId: Setter<string | undefined>;
-    public peers: Accessor<Record<string, Peer>>;
-    private setPeers: Setter<Record<string, Peer>>;
+    public peers: Accessor<Peer[]>;
+    private setPeers: Setter<Peer[]>;
     public pendingPeerId: Accessor<string | undefined>;
     private setPendingPeerId: Setter<string | undefined>;
-    private requestedPeerId?: string;
+    public requestedPeerId?: string;
     public status: Accessor<ConnectionState> = () => this._status();
     private playSound: (index: number) => void;
 
@@ -22,7 +22,7 @@ export class Connection {
         const [id, setId] = createSignal<string | undefined>(undefined);
         this.id = id;
         this.setId = setId;
-        const [peers, setPeers] = createSignal<Record<string, Peer>>({});
+        const [peers, setPeers] = createSignal<Peer[]>([]);
         this.peers = peers;
         this.setPeers = setPeers;
         const [pendingPeerId, setPendingPeerId] = createSignal<string | undefined>(undefined);
@@ -43,7 +43,7 @@ export class Connection {
                 type: ConnectionType.Listening,
                 sounds: buttons.map((i) => ({ label: i })),
             };
-            this.setPeers({ ...this.peers(), peerId: newPeer });
+            this.setPeers([...this.peers(), newPeer]);
             this.requestedPeerId = undefined;
         } else {
             // TODO reject
@@ -54,7 +54,7 @@ export class Connection {
         if (this.status() === ConnectionState.Ready) {
             this.setPendingPeerId(peerId);
         } else {
-            // TODO reject
+            // TODO reject request automatically
         }
     };
 
@@ -93,9 +93,17 @@ export class Connection {
             throw new Error('Unexpected State');
         }
         const newPeer: Peer = { id: this.pendingPeerId()!, type: ConnectionType.Sending };
-        this.setPeers({ ...this.peers(), [newPeer.id]: newPeer });
+        this.setPeers([...this.peers(), newPeer]);
         this.setPendingPeerId(undefined);
         this.send(createMatchMessage(newPeer.id, buttons));
+    };
+
+    public denyRequest = () => {
+        if (!this.pendingPeerId()) {
+            throw new Error('Unexpected State');
+        }
+        // TODO send deny message
+        this.setPendingPeerId(undefined);
     };
 
     public click = (peerId: string, button: number) => {

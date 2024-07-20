@@ -42,4 +42,10 @@ export type ErrorMessage = z.infer<typeof ZErrorMessage>;
 export type RequestMessage = z.infer<typeof ZRequestMessage>;
 
 export type SendableMessage = MatchMessage | RequestMessage | ClickMessage | IdMessage;
+export type ReceivableMessage = MatchMessage | RequestMessage | ClickMessage | ErrorMessage;
 export type Out<T extends SendableMessage> = Omit<T, 'id'>;
+
+export interface MessageLog {
+    message: ReceivableMessage;
+    timestamp: Date;
+}
