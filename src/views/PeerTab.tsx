@@ -1,7 +1,6 @@
 import { For, Show, createEffect, createSignal } from 'solid-js';
 import { ConnectForm } from '../components/ConnectForm';
 import { useConnection, ConnectionState, ConnectionType } from '../connection';
-import Logger from 'js-logger';
 import { AcceptGrid } from '../components/AcceptGrid';
 import { ListenerView } from './ListenerView';
 
@@ -20,9 +19,6 @@ export const PeerTab = () => {
         }
     });
 
-    createEffect(() => {
-        Logger.info('PeerTab mounted');
-    });
     return (
         <div>
             <Show when={status() >= ConnectionState.Ready}>

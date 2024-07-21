@@ -44,7 +44,7 @@ export class ConnectionWS {
             this.ws.onerror = () => reject(Logger.error('WebSocket error'));
             this.ws.onclose = () => {
                 Logger.error('WebSocket closed');
-                void this.connectWithRetries();
+                // void this.connectWithRetries();
             };
         });
     }

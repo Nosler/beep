@@ -15,13 +15,22 @@ export interface Config {
     lastConnected?: string;
 }
 
+type EditSoundData = Omit<Partial<Sound>, 'buffer'>;
+
 export interface ConfigContext {
     config: Config;
-    setConfig: (setter: StoreSetter<Config>) => void;
+    setVolume: (volume: number) => void;
     addSound: (s: Omit<Sound, 'buffer'>) => Promise<void>;
     audioContext: Accessor<AudioContext>;
     playBuffer: (buffer: AudioBuffer, volume?: number) => void;
     playSound: (index: number) => void;
+    editSound: (
+        index: number,
+        data: EditSoundData,
+        callback?: (buttons: string[]) => void | Promise<void>
+    ) => Promise<boolean>;
+    tabIndex: Accessor<number>;
+    setTabIndex: (i: number) => void;
 }
 
 export interface Tab {

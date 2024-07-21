@@ -7,12 +7,10 @@ import magenta from '../assets/magenta.png';
 import yellow from '../assets/yellow.png';
 import X from '../assets/x.png';
 import minimize from '../assets/minimize.png';
-interface TitleBarProps {
-    text: string;
-}
+import { writeText } from '@tauri-apps/api/clipboard';
 
-export const TitleBar = (props: TitleBarProps) => {
-    const { status } = useConnection();
+export const TitleBar = () => {
+    const { status, id } = useConnection();
 
     const statusColor = () => {
         switch (status()) {
@@ -27,19 +25,52 @@ export const TitleBar = (props: TitleBarProps) => {
         }
     };
 
+    const titleText = () => {
+        switch (status()) {
+            case ConnectionState.Ready:
+                return id();
+            case ConnectionState.Connected:
+                return id() + '- :3';
+            case ConnectionState.Requested:
+                return id() + ' - ~';
+            case ConnectionState.Error:
+                return 'Disconnected';
+        }
+    };
+
     return (
-        <div data-tauri-drag-region class="titlebar">
-            <div class="size-[24px] select-none pl-1 pt-1" data-tauri-drag-region>
+        <div
+            data-tauri-drag-region
+            class="flex h-fit w-full select-none items-start justify-end gap-1 border-b border-b-thirtygrey p-0.5"
+        >
+            <div
+                class="inline-flex h-full w-6 select-none items-center justify-center"
+                data-tauri-drag-region
+            >
                 <img src={statusColor()} alt="status" class="pointer-events-none" />
             </div>
 
-            <p data-tauri-drag-region class="w-full cursor-default pl-2 pt-1 text-left text-xs">
-                {props.text}
+            <p
+                data-tauri-drag-region
+                class="flex size-full cursor-default flex-col items-start justify-center text-left text-xs"
+            >
+                <span data-tauri-drag-region>
+                    Beep -{' '}
+                    <span onClick={() => (id() ? void writeText(id() as string) : null)}>
+                        {titleText()}
+                    </span>
+                </span>
             </p>
-            <div class="titlebar-button" onClick={() => void appWindow.minimize()}>
+            <div
+                class="inline-flex h-fit w-6 items-center justify-center p-0.5 text-center hover:bg-magenta active:bg-yellow"
+                onClick={() => void appWindow.minimize()}
+            >
                 <img src={minimize} alt="minimize" />
             </div>
-            <div class="titlebar-button" onClick={() => void appWindow.close()}>
+            <div
+                class="inline-flex h-fit w-6 grow-0 items-center justify-center p-0.5 text-center hover:bg-magenta active:bg-yellow"
+                onClick={() => void appWindow.close()}
+            >
                 <img src={X} alt="close" />
             </div>
         </div>

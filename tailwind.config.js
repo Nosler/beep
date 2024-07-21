@@ -45,5 +45,14 @@ module.exports = {
     pattern: /text-+/,
     variants: ["hover"]
   },
+  {
+    pattern: /h-+/
+  },
+  {
+    pattern: /w-+/
+  },
+  {
+    pattern: /opacity-+/
+  }
   ]
 }

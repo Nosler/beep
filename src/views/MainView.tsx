@@ -1,16 +1,16 @@
-import { createSignal } from 'solid-js';
 import { TabList } from './TabList';
 import { tabs } from './Tabs';
 import { Dynamic } from 'solid-js/web';
+import { useConfig } from '../config';
 
 export const MainView = () => {
-    const [tabIndex, setTabIndex] = createSignal(0);
+    const { tabIndex } = useConfig();
 
     return (
-        <div class="blue size-full max-h-full flex-col justify-center overflow-hidden bg-black text-center">
-            <TabList tabs={tabs} setTabIndex={setTabIndex} tabIndex={tabIndex} />
+        <div class="flex size-full max-h-full flex-col justify-start gap-2 overflow-hidden bg-black text-center">
+            <TabList tabs={tabs} />
 
-            <div class="h-50 m-3 border border-dashed border-twentygrey bg-tengrey p-2">
+            <div class="main-view h-fit border border-dashed border-twentygrey bg-tengrey p-2">
                 <Dynamic component={tabs[tabIndex()].component} />
             </div>
         </div>

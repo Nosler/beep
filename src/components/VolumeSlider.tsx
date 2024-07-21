@@ -3,7 +3,7 @@ import { useConfig } from '../config';
 import ClickSound from '../assets/fader_click.mp3';
 
 export const VolumeSlider = () => {
-    const { config, setConfig, audioContext, playBuffer } = useConfig();
+    const { config, setVolume, audioContext, playBuffer } = useConfig();
     const [buffer, setBuffer] = createSignal<AudioBuffer | null>(null);
 
     createEffect(() => {
@@ -27,7 +27,7 @@ export const VolumeSlider = () => {
 
     const onChange: JSX.EventHandler<HTMLInputElement, Event> = (e) => {
         const volume = +e.currentTarget.value;
-        setConfig((c) => ({ ...c, volume }));
+        setVolume(volume);
     };
 
     return (

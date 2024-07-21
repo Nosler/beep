@@ -109,4 +109,12 @@ export class Connection {
     public click = (peerId: string, button: number) => {
         this.send(createClickMessage(peerId, button));
     };
+
+    public updateButtons = (buttons: string[]) => {
+        this.peers().forEach((peer) => {
+            if (peer.type === ConnectionType.Sending) {
+                //                peer.sounds = buttons;
+            }
+        });
+    };
 }

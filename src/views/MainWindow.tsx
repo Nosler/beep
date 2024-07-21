@@ -3,10 +3,9 @@ import { TitleBar } from '../components/TitleBar';
 
 export const MainWindow = (props: { children: JSX.Element }) => {
     return (
-        <div>
+        <div class="flex h-screen w-screen flex-col overflow-hidden">
             <TitleBar text="Beep - Disconnected" />
-            <div class="mb-1 h-[24px]" />
-            {props.children}
+            <div class="relative grow p-2">{props.children}</div>
         </div>
     );
 };

@@ -1,19 +1,18 @@
-import { Accessor, For } from 'solid-js';
+import { For } from 'solid-js';
 import { TabButton } from '../components/TabButton';
-import { Tab } from '../config';
+import { Tab, useConfig } from '../config';
 import { VolumeSlider } from '../components/VolumeSlider';
 
-interface TabList {
+interface TabListProps {
     tabs: Tab[];
-    tabIndex: Accessor<number>;
-    setTabIndex: (i: number) => void;
 }
 
-export const TabList = (props: TabList) => {
+export const TabList = (props: TabListProps) => {
+    const { tabIndex, setTabIndex } = useConfig();
     return (
         <div
             id="top_bar"
-            class="m-3 h-12 border border-dashed border-twentygrey bg-tengrey px-1 py-1.5"
+            class="h-12 border border-dashed border-twentygrey bg-tengrey px-1 py-1.5"
         >
             <div class="flex w-full items-center justify-around">
                 <For each={props.tabs}>
@@ -22,8 +21,8 @@ export const TabList = (props: TabList) => {
                             title={item.title}
                             color={item.color}
                             hovercolor={item.hovercolor || 'dark' + item.color}
-                            active={props.tabIndex() == index()}
-                            onClick={() => props.setTabIndex(index())}
+                            active={tabIndex() == index()}
+                            onClick={() => setTabIndex(index())}
                         />
                     )}
                 </For>
