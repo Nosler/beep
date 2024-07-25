@@ -1,4 +1,4 @@
-import { JSX, createSignal, onMount } from 'solid-js';
+import { JSX, createEffect, createSignal, onMount } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { createDefaultConfig } from './createDefaultConfig';
 import { configContext } from './configContext';
@@ -10,9 +10,11 @@ import { loadSoundBuffer } from './loadSoundBuffer';
 export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] }) {
     const [config, setConfig] = createStore<Config>({ volume: 1, sounds: [] });
     const [tabIndex, setTabIndex] = createSignal(0);
-    const [audioContext] = createSignal(new AudioContext());
+    const [audioContext] = createSignal(new AudioContext({ latencyHint: 'interactive' }));
+    const [gainNode, setGainNode] = createSignal<GainNode>();
 
     onMount(() => {
+        void audioContext().resume();
         loadConfig(audioContext())
             .then((config) => {
                 setConfig(config);
@@ -27,6 +29,17 @@ export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] })
                 Logger.info('Config instantiated');
                 Logger.debug('Config:', config);
             });
+    });
+
+    createEffect(() => {
+        if (!gainNode()) {
+            const gain = audioContext().createGain();
+            gain.gain.value = config.volume;
+            gain.connect(audioContext().destination);
+            setGainNode(gain);
+        } else {
+            gainNode()!.gain.value = config.volume;
+        }
     });
 
     const saveConfigToFile = () => {
@@ -46,14 +59,20 @@ export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] })
         saveConfigToFile();
     };
 
-    const playBuffer = (buffer: AudioBuffer, volume?: number) => {
+    const playBuffer = async (buffer: AudioBuffer, volume?: number) => {
         const source = audioContext().createBufferSource();
         source.buffer = buffer;
-        const gainNode = audioContext().createGain();
-        gainNode.gain.value = volume !== undefined ? volume : config.volume;
-        source.connect(gainNode);
-        gainNode.connect(audioContext().destination);
-        source.start(0);
+        source.connect(gainNode()!);
+        if (volume) {
+            gainNode()!.gain.value = volume;
+        }
+        if (audioContext().state === 'suspended') {
+            await audioContext().resume();
+        }
+        source.start(0.08);
+        source.onended = () => {
+            source.disconnect();
+        };
     };
 
     const playSound = (index: number) => {
@@ -65,7 +84,7 @@ export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] })
             Logger.error(`Sound ${sound.label} has no buffer`);
             return;
         }
-        playBuffer(sound.buffer);
+        void playBuffer(sound.buffer);
     };
 
     const editSound = async (
@@ -90,6 +109,7 @@ export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] })
 
         // This is a workaround for Solid not updating the UI when the array is mutated
         setConfig('sounds', index, sound);
+        saveConfigToFile();
         if (callback) {
             void callback(config.sounds.map((s) => s.label));
         }

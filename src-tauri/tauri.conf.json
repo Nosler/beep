@@ -61,7 +61,15 @@
     },
     "bundle": {
       "active": true,
-      "targets": "all",
+      "targets": [
+        "deb",
+        "rpm",
+        "msi",
+        "nsis",
+        "app",
+        "dmg",
+        "updater"
+      ],
       "identifier": "com.beep.dev",
       "icon": [
         "icons/icon-32.png",

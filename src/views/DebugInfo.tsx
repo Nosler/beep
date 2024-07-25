@@ -1,5 +1,5 @@
 import { For, Show } from 'solid-js';
-import { ConnectionState, ConnectionType, Listener, Peer } from '../connection/connectionState';
+import { ConnectionState, ConnectionType, Listener } from '../connection/connectionState';
 import { useConnection } from '../connection';
 import { useConfig } from '../config';
 import { writeText } from '@tauri-apps/api/clipboard';

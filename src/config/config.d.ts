@@ -1,4 +1,3 @@
-import { StoreSetter } from 'solid-js/store';
 import { Accessor } from 'solid-js';
 export interface Button {
     label: string;
@@ -22,7 +21,7 @@ export interface ConfigContext {
     setVolume: (volume: number) => void;
     addSound: (s: Omit<Sound, 'buffer'>) => Promise<void>;
     audioContext: Accessor<AudioContext>;
-    playBuffer: (buffer: AudioBuffer, volume?: number) => void;
+    playBuffer: (buffer: AudioBuffer, volume?: number) => Promise<void>;
     playSound: (index: number) => void;
     editSound: (
         index: number,
