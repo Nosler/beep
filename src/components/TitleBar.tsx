@@ -56,7 +56,10 @@ export const TitleBar = () => {
             >
                 <span data-tauri-drag-region>
                     Beep -{' '}
-                    <span onClick={() => (id() ? void writeText(id() as string) : null)}>
+                    <span
+                        onClick={() => (id() ? void writeText(id() as string) : null)}
+                        data-tauri-drag-region
+                    >
                         {titleText()}
                     </span>
                 </span>
