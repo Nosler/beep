@@ -27,7 +27,13 @@ export const ButtonGrid = (props: ButtonGridProps) => {
                         />
                     )}
                 </For>
-                <AddButton index={props.buttons.length} edit={props.edit} />
+                <Show when={props.edit && props.edit()}>
+                    <AddButton
+                        index={props.buttons.length}
+                        edit={props.edit}
+                        action={setCurrentlyEditing}
+                    />
+                </Show>
             </div>
             <Show when={currentlyEditing() !== null}>
                 <Portal mount={document.querySelector('.main-view')!}>

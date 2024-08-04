@@ -6,6 +6,7 @@ import { Accessor } from 'solid-js';
 interface AddButtonProps {
     index: number;
     edit?: Accessor<boolean>;
+    action: (index: number) => void;
 }
 
 export const AddButton = (props: AddButtonProps) => {
@@ -20,6 +21,7 @@ export const AddButton = (props: AddButtonProps) => {
                 fits() || 'hidden'
             )}
             index={props.index}
+            action={props.action}
         />
     );
 };

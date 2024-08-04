@@ -11,7 +11,7 @@ interface EditSoundProps {
 }
 
 export const EditSound = (props: EditSoundProps) => {
-    const { config, editSound } = useConfig();
+    const { config, editSound, deleteSound } = useConfig();
     const { updateButtons } = useConnection();
 
     const isNew = () => {
@@ -43,11 +43,18 @@ export const EditSound = (props: EditSoundProps) => {
     };
     const onSubmit = async (e: SubmitEvent) => {
         e.preventDefault();
-        const label = soundLabel() ? soundLabel() : undefined;
+        const label = soundLabel() || undefined;
         const file = soundFile();
-        Logger.debug('Submitting sound', label, file);
         if (!label && !file) return;
+        Logger.debug('Submitting sound', label, file);
         setEdited(await editSound(props.index, { label, file }, updateButtons));
+    };
+
+    const onDelete = (e: Event) => {
+        e.preventDefault();
+        Logger.debug('Deleting sound', soundLabel());
+        deleteSound(props.index, updateButtons);
+        setEdited(true);
     };
 
     const openFile = async (e: MouseEvent) => {
@@ -101,9 +108,15 @@ export const EditSound = (props: EditSoundProps) => {
                     >
                         {fileText()}
                     </button>
-                    <button type="submit" class="bg-tengrey px-2 text-white">
-                        Save
-                    </button>
+                    <div class="flex gap-1">
+                        <button type="button" class="bg-tengrey px-2 text-white" onClick={onDelete}>
+                            Delete
+                        </button>
+
+                        <button type="submit" class="bg-tengrey px-2 text-white">
+                            Save
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

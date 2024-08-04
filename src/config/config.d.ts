@@ -28,6 +28,7 @@ export interface ConfigContext {
         data: EditSoundData,
         callback?: (buttons: string[]) => void | Promise<void>
     ) => Promise<boolean>;
+    deleteSound: (index: number, callback?: (buttons: string[]) => void | Promise<void>) => void;
     tabIndex: Accessor<number>;
     setTabIndex: (i: number) => void;
 }

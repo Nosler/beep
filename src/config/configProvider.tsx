@@ -95,7 +95,7 @@ export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] })
         Logger.info('Editing sound', index, 'with', data);
         if (index >= config.sounds.length) {
             if (data.label && data.file) {
-                await addSound({ label: config.sounds.length.toString(), file: data.file });
+                await addSound({ label: data.label, file: data.file });
                 return true;
             }
             return false;
@@ -116,6 +116,21 @@ export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] })
         return true;
     };
 
+    const deleteSound = (index: number, callback?: (buttons: string[]) => void | Promise<void>) => {
+        Logger.info('Deleting sound', index);
+        if (index >= config.sounds.length) {
+            return;
+        }
+        setConfig(
+            'sounds',
+            config.sounds.filter((_, i) => i !== index)
+        );
+        if (callback) {
+            void callback(config.sounds.map((s) => s.label));
+        }
+        saveConfigToFile();
+    };
+
     return (
         <configContext.Provider
             value={{
@@ -126,6 +141,7 @@ export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] })
                 playBuffer,
                 playSound,
                 editSound,
+                deleteSound,
                 tabIndex,
                 setTabIndex,
             }}
