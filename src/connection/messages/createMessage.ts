@@ -1,4 +1,12 @@
-import { Out, MatchMessage, MessageTypes, RequestMessage, ClickMessage } from './messageValidators';
+import {
+    Out,
+    MatchMessage,
+    MessageTypes,
+    RequestMessage,
+    ClickMessage,
+    NewIdMessage,
+    LoginMessage,
+} from './messageValidators';
 
 export function createMatchMessage(peerId: string, buttons: string[]): Out<MatchMessage> {
     return {
@@ -20,5 +28,18 @@ export function createClickMessage(peerId: string, buttonIndex: number): Out<Cli
         type: MessageTypes.enum.CLICK,
         peerId,
         buttonIndex,
+    };
+}
+
+export function createNewIdMessage(): Out<NewIdMessage> {
+    return {
+        type: MessageTypes.enum.NEWID,
+    };
+}
+
+export function createLoginMessage(token: string): Out<LoginMessage> {
+    return {
+        type: MessageTypes.enum.LOGIN,
+        token,
     };
 }

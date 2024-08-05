@@ -6,8 +6,7 @@ export const ConnectForm = () => {
     const connection = useConnection();
     const handleSubmit = (e: SubmitEvent) => {
         e.preventDefault();
-        if (text().length > 6) {
-            // TODO proper ids
+        if (text().length > 8) {
             connection.sendRequest(text());
         }
     };

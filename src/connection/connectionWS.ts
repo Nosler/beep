@@ -1,5 +1,6 @@
 import { Connection } from './connection';
 import { ConnectionType } from './connectionState';
+import { createLoginMessage, createNewIdMessage } from './messages';
 import {
     ZMatchMessage,
     ZIdMessage,
@@ -20,8 +21,8 @@ export class ConnectionWS {
     private ws!: WebSocket;
     private connection: Connection;
 
-    constructor(connection: Connection) {
-        void this.connectWithRetries();
+    constructor(connection: Connection, token?: string) {
+        void this.connectWithRetries(token);
         this.connection = connection;
     }
 
@@ -29,7 +30,7 @@ export class ConnectionWS {
         return this.ws && this.ws.readyState === WebSocket.OPEN;
     }
 
-    private instantiateWS(): Promise<void> {
+    private instantiateWS(token?: string): Promise<void> {
         const url = new URL(
             '/connect',
             import.meta.env.VITE_DISCOVERY_SERVER_URL || 'wss://localhost:3000'
@@ -38,6 +39,11 @@ export class ConnectionWS {
             this.ws = new WebSocket(url);
             this.ws.onopen = () => {
                 Logger.info('Connected to server.');
+                if (token) {
+                    this.ws.send(JSON.stringify(createLoginMessage(token)));
+                } else {
+                    this.ws.send(JSON.stringify(createNewIdMessage()));
+                }
                 resolve();
             };
             this.ws.onmessage = this.handleMessage.bind(this);
@@ -49,12 +55,16 @@ export class ConnectionWS {
         });
     }
 
-    private async connectWithRetries(maxRetries: number = 3, delayMs: number = 500): Promise<void> {
+    private async connectWithRetries(
+        token?: string,
+        maxRetries: number = 3,
+        delayMs: number = 500
+    ): Promise<void> {
         let retries = 0;
 
         while (retries < maxRetries) {
             try {
-                await this.instantiateWS();
+                await this.instantiateWS(token);
                 return;
             } catch (err) {
                 retries++;
@@ -89,12 +99,14 @@ export class ConnectionWS {
                 break;
             case MessageTypes.enum.ERROR:
                 Logger.error('Received error message', data);
+                if (data.code === 3) {
+                    this.connection.handleInvalidToken();
+                }
                 break;
             default:
                 Logger.warn('Unknown message format', data);
                 return;
         }
-        Logger.info('Received message', data);
     }
 
     private handleClick(data: ClickMessage) {

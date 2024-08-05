@@ -1,7 +1,7 @@
 import { Accessor, Setter, createSignal } from 'solid-js';
 import { ConnectionWS } from './connectionWS';
 import { Out, SendableMessage } from './messages/messageValidators';
-import { ConnectionState, ConnectionType, Peer } from './connectionState';
+import { ConnectionState, ConnectionType, Listener, Peer } from './connectionState';
 import { createClickMessage, createMatchMessage, createRequestMessage } from './messages';
 import Logger from 'js-logger';
 
@@ -36,9 +36,17 @@ export class Connection {
         this.setId(id);
     };
 
+    private getPeer = (id: string): Peer | undefined => {
+        for (const peer of this.peers()) {
+            if (peer.id === id) {
+                return peer;
+            }
+        }
+    };
+
     public handleMatch = (peerId: string, buttons: string[]) => {
         if (this.status() === ConnectionState.Requested) {
-            const newPeer = {
+            const newPeer: Listener = {
                 id: peerId,
                 type: ConnectionType.Listening,
                 sounds: buttons.map((i) => ({ label: i })),
@@ -46,9 +54,15 @@ export class Connection {
             this.setPeers([...this.peers(), newPeer]);
             this.requestedPeerId = undefined;
         } else {
-            // TODO reject
+            // update buttons
+            const peer = this.getPeer(peerId);
+            if (peer && peer.type === ConnectionType.Listening) {
+                (peer as Listener).sounds = buttons.map((i) => ({ label: i }));
+            }
         }
     };
+
+    public handleInvalidToken = () => {};
 
     public handleRequest = (peerId: string) => {
         if (this.status() === ConnectionState.Ready) {
@@ -111,10 +125,10 @@ export class Connection {
     };
 
     public updateButtons = (buttons: string[]) => {
-        this.peers().forEach((peer) => {
-            if (peer.type === ConnectionType.Sending) {
-                //                peer.sounds = buttons;
-            }
-        });
+        this.peers()
+            .filter((p) => p.type === ConnectionType.Sending)
+            .forEach((peer) => {
+                this.ws.send(createMatchMessage(peer.id, buttons));
+            });
     };
 }
