@@ -40,8 +40,10 @@ export class ConnectionWS {
             this.ws.onopen = () => {
                 Logger.info('Connected to server.');
                 if (token) {
+                    Logger.debug('Found token, logging in.');
                     this.ws.send(JSON.stringify(createLoginMessage(token)));
                 } else {
+                    Logger.debug('No token found, requesting new one.');
                     this.ws.send(JSON.stringify(createNewIdMessage()));
                 }
                 resolve();
@@ -140,10 +142,11 @@ export class ConnectionWS {
     }
 
     private handleId(data: IdMessage) {
-        this.connection.handleId(data.id);
+        this.connection.handleId(data.token, data.id);
     }
 
     public send(data: Out<SendableMessage>) {
+        Logger.info('Sending Message:', data);
         this.ws.send(JSON.stringify(data));
     }
 

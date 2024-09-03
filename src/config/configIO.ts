@@ -17,6 +17,7 @@ export async function loadConfig(ctx: AudioContext): Promise<Config> {
             )
         );
         Logger.info('Config loaded');
+        Logger.debug(configJson);
         return configJson;
     }
     throw new Error('No config found');
@@ -34,5 +35,5 @@ export async function saveConfig(config: Config) {
     }
     const configFilePath = await join(configDir, 'config.json');
     Logger.debug('Saving config to ', configFilePath);
-    await writeFile(configFilePath, JSON.stringify(removeSounds(config)));
+    await writeFile(configFilePath, JSON.stringify(removeSounds(config), null, 2));
 }

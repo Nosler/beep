@@ -4,7 +4,6 @@ export const MessageTypes = z.enum(['MATCH', 'REQUEST', 'NEWID', 'CLICK', 'ERROR
 
 export const ZMessage = z.object({
     type: MessageTypes,
-    id: z.string(),
 });
 
 export const ZNewIdMessage = ZMessage.extend({
@@ -14,17 +13,20 @@ export const ZNewIdMessage = ZMessage.extend({
 export const ZIdMessage = ZMessage.extend({
     type: z.literal(MessageTypes.enum.ID),
     token: z.string(),
+    id: z.string(),
 });
 
 export const ZMatchMessage = ZMessage.extend({
     type: z.literal(MessageTypes.enum.MATCH),
     peerId: z.string(),
     buttons: z.array(z.string()).min(1).max(9),
+    id: z.string(),
 });
 
 export const ZRequestMessage = ZMessage.extend({
     type: z.literal(MessageTypes.enum.REQUEST),
     peerId: z.string(),
+    id: z.string(),
 });
 
 export const ZLoginMessage = ZMessage.extend({

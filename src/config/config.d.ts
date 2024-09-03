@@ -31,6 +31,7 @@ export interface ConfigContext {
     deleteSound: (index: number, callback?: (buttons: string[]) => void | Promise<void>) => void;
     tabIndex: Accessor<number>;
     setTabIndex: (i: number) => void;
+    setToken: (token?: string) => void;
 }
 
 export interface Tab {

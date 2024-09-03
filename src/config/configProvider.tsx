@@ -9,6 +9,7 @@ import { loadSoundBuffer } from './loadSoundBuffer';
 
 export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] }) {
     const [config, setConfig] = createStore<Config>({ volume: 1, sounds: [] });
+    const [isLoaded, setIsLoaded] = createSignal(false);
     const [tabIndex, setTabIndex] = createSignal(0);
     const [audioContext] = createSignal(new AudioContext({ latencyHint: 'interactive' }));
     const [gainNode, setGainNode] = createSignal<GainNode>();
@@ -28,6 +29,7 @@ export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] })
             .finally(() => {
                 Logger.info('Config instantiated');
                 Logger.debug('Config:', config);
+                setIsLoaded(true);
             });
     });
 
@@ -131,6 +133,11 @@ export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] })
         saveConfigToFile();
     };
 
+    const setToken = (token?: string) => {
+        setConfig('token', token);
+        saveConfigToFile();
+    };
+
     return (
         <configContext.Provider
             value={{
@@ -144,9 +151,10 @@ export function ConfigProvider(props: { children: JSX.Element | JSX.Element[] })
                 deleteSound,
                 tabIndex,
                 setTabIndex,
+                setToken,
             }}
         >
-            {props.children}
+            {isLoaded() ? props.children : 'Loading...'}
         </configContext.Provider>
     );
 }

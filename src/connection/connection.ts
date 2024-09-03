@@ -2,7 +2,12 @@ import { Accessor, Setter, createSignal } from 'solid-js';
 import { ConnectionWS } from './connectionWS';
 import { Out, SendableMessage } from './messages/messageValidators';
 import { ConnectionState, ConnectionType, Listener, Peer } from './connectionState';
-import { createClickMessage, createMatchMessage, createRequestMessage } from './messages';
+import {
+    createClickMessage,
+    createMatchMessage,
+    createNewIdMessage,
+    createRequestMessage,
+} from './messages';
 import Logger from 'js-logger';
 
 export class Connection {
@@ -16,9 +21,14 @@ export class Connection {
     public requestedPeerId?: string;
     public status: Accessor<ConnectionState> = () => this._status();
     private playSound: (index: number) => void;
+    private setToken: (token?: string) => void;
 
-    constructor(playSound: (index: number) => void) {
-        this.ws = new ConnectionWS(this);
+    constructor(
+        playSound: (index: number) => void,
+        setToken: (token?: string) => void,
+        token?: string
+    ) {
+        this.ws = new ConnectionWS(this, token);
         const [id, setId] = createSignal<string | undefined>(undefined);
         this.id = id;
         this.setId = setId;
@@ -29,10 +39,12 @@ export class Connection {
         this.pendingPeerId = pendingPeerId;
         this.setPendingPeerId = setPendingPeerId;
         this.playSound = playSound;
+        this.setToken = setToken;
         Logger.debug('Connection created.');
     }
 
-    public handleId = (id: string) => {
+    public handleId = (token: string, id: string) => {
+        this.setToken(token);
         this.setId(id);
     };
 
@@ -62,7 +74,11 @@ export class Connection {
         }
     };
 
-    public handleInvalidToken = () => {};
+    public handleInvalidToken = () => {
+        this.setId(undefined);
+        this.setToken(undefined);
+        this.requestId();
+    };
 
     public handleRequest = (peerId: string) => {
         if (this.status() === ConnectionState.Ready) {
@@ -96,6 +112,10 @@ export class Connection {
             return ConnectionState.Ready;
         }
     }
+
+    public requestId = () => {
+        this.send(createNewIdMessage());
+    };
 
     public sendRequest = (id: string) => {
         this.requestedPeerId = id;

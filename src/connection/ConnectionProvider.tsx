@@ -4,8 +4,8 @@ import { Connection } from './connection';
 import { useConfig } from '../config';
 
 export function ConnectionProvider(props: { children: JSX.Element }) {
-    const { playSound } = useConfig();
-    const connection = new Connection(playSound);
+    const { playSound, config, setToken } = useConfig();
+    const connection = new Connection(playSound, setToken, config.token);
     return (
         <connectionContext.Provider value={connection}>{props.children}</connectionContext.Provider>
     );
