@@ -35,7 +35,6 @@ export class ConnectionWS {
             '/connect',
             import.meta.env.VITE_DISCOVERY_SERVER_URL || 'wss://localhost:3000'
         );
-        console.log('URL:', url);
         return new Promise((resolve, reject) => {
             this.ws = new WebSocket(url);
             this.ws.onopen = () => {

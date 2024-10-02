@@ -5,8 +5,9 @@ export const ConnectForm = () => {
     const [text, setText] = createSignal('');
     const connection = useConnection();
     const handleSubmit = (e: SubmitEvent) => {
+        console.log('submit');
         e.preventDefault();
-        if (text().length > 8) {
+        if (text().length === 8) {
             connection.sendRequest(text());
         }
     };
