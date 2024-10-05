@@ -1,89 +1,74 @@
 {
-  "build": {
-    "beforeDevCommand": "pnpm dev",
-    "beforeBuildCommand": "pnpm build",
-    "devPath": "http://localhost:1420",
-    "distDir": "../dist"
-  },
-  "package": {
-    "productName": "beep-client",
-    "version": "0.0.0"
-  },
-  "tauri": {
-    "allowlist": {
-      "shell": {
-        "open": false
-      },
-      "window": {
-        "close": true,
-        "hide": true,
-        "show": true,
-        "maximize": true,
-        "minimize": true,
-        "unmaximize": true,
-        "unminimize": true,
-        "startDragging": true
-      },
-      "clipboard": {
-        "writeText": true
-      },
-      "fs": {
-        "scope": [
-          "$RESOURCE/**/*",
-          "$APPCONFIG/*",
-          "$HOME/**/*",
-          "$CONFIG/**/*"
+    "build": {
+        "beforeDevCommand": "pnpm dev",
+        "beforeBuildCommand": "pnpm build",
+        "devPath": "http://localhost:1420",
+        "distDir": "../dist"
+    },
+    "package": {
+        "productName": "beep-client",
+        "version": "0.0.0"
+    },
+    "tauri": {
+        "allowlist": {
+            "shell": {
+                "open": false
+            },
+            "window": {
+                "close": true,
+                "hide": true,
+                "show": true,
+                "maximize": true,
+                "minimize": true,
+                "unmaximize": true,
+                "unminimize": true,
+                "startDragging": true
+            },
+            "clipboard": {
+                "writeText": true
+            },
+            "fs": {
+                "scope": ["$RESOURCE/**/*", "$APPCONFIG/*", "$HOME/**/*", "$CONFIG/**/*"],
+                "exists": true,
+                "readFile": true,
+                "writeFile": true,
+                "createDir": true
+            },
+            "path": {
+                "all": true
+            },
+            "dialog": {
+                "open": true
+            }
+        },
+        "windows": [
+            {
+                "title": "BEEP",
+                "width": 370,
+                "height": 320,
+                "resizable": false,
+                "decorations": false,
+                "alwaysOnTop": true
+            }
         ],
-        "exists": true,
-        "readFile": true,
-        "writeFile": true,
-        "createDir": true
-      },
-      "path": {
-        "all": true
-      },
-      "dialog": {
-        "open": true
-      }
-    },
-    "windows": [
-      {
-        "title": "BEEP",
-        "width": 370,
-        "height": 320,
-        "resizable": false,
-        "decorations": false,
-        "alwaysOnTop": true
-      }
-    ],
-    "security": {
-      "csp": null
-    },
-    "bundle": {
-      "active": true,
-      "targets": [
-        "deb",
-        "rpm",
-        "msi",
-        "nsis",
-        "app",
-        "dmg",
-        "updater"
-      ],
-      "identifier": "com.beep.dev",
-      "icon": [
-        "icons/icon-32.png",
-        "icons/icon-128.png",
-        "icons/icon-256.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
-      "appimage": {
-        "bundleMediaFramework": true
-      },
-      "resources": [
-        "resources/*.mp3"
-      ]
+        "security": {
+            "csp": null
+        },
+        "bundle": {
+            "active": true,
+            "targets": ["deb", "rpm", "msi", "nsis", "app", "dmg", "updater"],
+            "identifier": "com.beep.dev",
+            "icon": [
+                "icons/32x32.png",
+                "icons/128x128.png",
+                "icons/128x128@2x.png",
+                "icons/icon.icns",
+                "icons/icon.ico"
+            ],
+            "appimage": {
+                "bundleMediaFramework": true
+            },
+            "resources": ["resources/*.mp3"]
+        }
     }
-  }
 }
