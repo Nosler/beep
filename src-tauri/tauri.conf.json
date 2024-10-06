@@ -7,7 +7,7 @@
     },
     "package": {
         "productName": "beep-client",
-        "version": "0.0.0"
+        "version": "0.0.1"
     },
     "tauri": {
         "allowlist": {
@@ -43,7 +43,7 @@
         },
         "windows": [
             {
-                "title": "BEEP",
+                "title": "beboop",
                 "width": 370,
                 "height": 320,
                 "resizable": false,

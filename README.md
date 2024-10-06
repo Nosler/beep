@@ -1,3 +1,15 @@
-# beep
+![beboop icon](beboop.png)
 
-tauri app 2 beep
+# beboop!!
+
+The Modern PC Pager.
+
+## Installation
+
+juuuules you do this one
+
+## FAQ
+
+whats the lil guys name
+
+Blip

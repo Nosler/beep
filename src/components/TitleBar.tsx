@@ -55,7 +55,7 @@ export const TitleBar = () => {
                 class="flex size-full cursor-default flex-col items-start justify-center text-left text-xs"
             >
                 <span data-tauri-drag-region>
-                    Beep -{' '}
+                    beboop -{' '}
                     <span
                         onClick={() => (id() ? void writeText(id() as string) : null)}
                         data-tauri-drag-region
