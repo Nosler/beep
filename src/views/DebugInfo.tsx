@@ -16,7 +16,7 @@ export const DebugInfo = () => {
     const { id, peers, status } = useConnection();
     return (
         <div class="">
-            <div class="mr-3 mt-1.5 flex flex-col text-left text-xs opacity-60">
+            <div class="mr-3 mt-1.5 flex h-full flex-col overflow-y-scroll text-left text-xs opacity-60">
                 <span>--- Config Info ---</span>
                 <span>Volume: {config.volume}</span>
                 <span>Sounds:</span>

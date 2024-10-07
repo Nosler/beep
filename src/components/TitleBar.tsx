@@ -1,12 +1,15 @@
-import { appWindow } from '@tauri-apps/api/window';
+import { appWindow, LogicalSize } from '@tauri-apps/api/window';
 import { useConnection } from '../connection';
 import { ConnectionState } from '../connection/connectionState';
+import title from '../assets/title.png';
+import blip from '../assets/blip.png';
 import cyan from '../assets/cyan.png';
 import green from '../assets/green.png';
 import magenta from '../assets/magenta.png';
 import yellow from '../assets/yellow.png';
 import X from '../assets/x.png';
 import minimize from '../assets/minimize.png';
+import resize from '../assets/resize.png';
 import { writeText } from '@tauri-apps/api/clipboard';
 
 export const TitleBar = () => {
@@ -15,13 +18,13 @@ export const TitleBar = () => {
     const statusColor = () => {
         switch (status()) {
             case ConnectionState.Ready:
-                return yellow;
+                return blip;
             case ConnectionState.Connected:
-                return green;
+                return blip;
             case ConnectionState.Requested:
-                return cyan;
+                return blip;
             case ConnectionState.Error:
-                return magenta;
+                return blip;
         }
     };
 
@@ -41,11 +44,12 @@ export const TitleBar = () => {
     return (
         <div
             data-tauri-drag-region
-            class="flex h-fit w-full select-none items-start justify-end gap-1 border-b border-b-thirtygrey p-0.5"
+            class="flex h-fit w-full select-none items-start justify-end gap-1 border-b border-b-tengrey p-0.5"
         >
             <div
                 class="inline-flex h-full w-6 select-none items-center justify-center"
                 data-tauri-drag-region
+                onClick={() => void appWindow.minimize()}
             >
                 <img src={statusColor()} alt="status" class="pointer-events-none" />
             </div>
@@ -55,12 +59,11 @@ export const TitleBar = () => {
                 class="flex size-full cursor-default flex-col items-start justify-center text-left text-xs"
             >
                 <span data-tauri-drag-region>
-                    beboop -{' '}
                     <span
                         onClick={() => (id() ? void writeText(id() as string) : null)}
                         data-tauri-drag-region
                     >
-                        {titleText()}
+                        <img src={title} alt="status" class="pointer-events-none" />
                     </span>
                 </span>
             </p>

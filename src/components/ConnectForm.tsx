@@ -17,7 +17,7 @@ export const ConnectForm = () => {
             <input
                 type="text"
                 class="bg-white text-center text-tengrey"
-                placeholder="Enter Peer ID"
+                placeholder="PeerID"
                 value={text()}
                 onInput={(e) => setText(e.target.value)}
             />

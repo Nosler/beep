@@ -18,7 +18,7 @@
                 "close": true,
                 "hide": true,
                 "show": true,
-                "maximize": true,
+                "maximize": false,
                 "minimize": true,
                 "unmaximize": true,
                 "unminimize": true,
@@ -44,8 +44,8 @@
         "windows": [
             {
                 "title": "beboop",
-                "width": 370,
-                "height": 320,
+                "width": 350,
+                "height": 450,
                 "resizable": false,
                 "decorations": false,
                 "alwaysOnTop": true
