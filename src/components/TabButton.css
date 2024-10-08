@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .filter-cyan {
+        filter: brightness(0) saturate(100%) invert(85%) sepia(78%) saturate(1243%)
+            hue-rotate(110deg) brightness(100%) contrast(113%);
+    }
+    .filter-magenta {
+        filter: brightness(0) saturate(100%) invert(23%) sepia(98%) saturate(4817%)
+            hue-rotate(293deg) brightness(112%) contrast(130%);
+    }
+    .filter-yellow {
+        filter: brightness(0) saturate(100%) invert(82%) sepia(97%) saturate(1057%)
+            hue-rotate(359deg) brightness(107%) contrast(105%);
+    }
+
+    .filter-lightcyan {
+        filter: brightness(0) saturate(100%) invert(100%) sepia(62%) saturate(1838%)
+            hue-rotate(129deg) brightness(106%) contrast(101%);
+    }
+    .filter-lightmagenta {
+        filter: brightness(0) saturate(100%) invert(48%) sepia(86%) saturate(2819%)
+            hue-rotate(270deg) brightness(106%) contrast(101%);
+    }
+    .filter-lightyellow {
+        filter: brightness(0) saturate(100%) invert(100%) sepia(82%) saturate(1502%)
+            hue-rotate(344deg) brightness(107%) contrast(100%);
+    }
+
+    .filter-darkcyan {
+        filter: brightness(0) saturate(100%) invert(48%) sepia(96%) saturate(1557%)
+            hue-rotate(149deg) brightness(88%) contrast(89%);
+    }
+    .filter-darkmagenta {
+        filter: brightness(0) saturate(100%) invert(30%) sepia(51%) saturate(2818%)
+            hue-rotate(306deg) brightness(87%) contrast(77%);
+    }
+    .filter-darkyellow {
+        filter: brightness(0) saturate(100%) invert(66%) sepia(32%) saturate(2067%)
+            hue-rotate(21deg) brightness(90%) contrast(102%);
+    }
+
+    .filter-grey {
+        filter: invert(25%) sepia(0%) saturate(0%) hue-rotate(219deg) brightness(101%) contrast(95%);
+    }
+}

@@ -44,7 +44,7 @@
         "windows": [
             {
                 "title": "beboop",
-                "width": 350,
+                "width": 320,
                 "height": 450,
                 "resizable": false,
                 "decorations": false,

@@ -37,6 +37,7 @@ export interface ConfigContext {
 export interface Tab {
     title: string;
     color: string;
+    icon: string;
     hovercolor?: string;
     component: () => JSX.Element;
 }

@@ -53,7 +53,6 @@ export const TitleBar = () => {
             >
                 <img src={statusColor()} alt="status" class="pointer-events-none" />
             </div>
-
             <p
                 data-tauri-drag-region
                 class="flex size-full cursor-default flex-col items-start justify-center text-left text-xs"
@@ -62,9 +61,7 @@ export const TitleBar = () => {
                     <span
                         onClick={() => (id() ? void writeText(id() as string) : null)}
                         data-tauri-drag-region
-                    >
-                        <img src={title} alt="status" class="pointer-events-none" />
-                    </span>
+                    ></span>
                 </span>
             </p>
             <div

@@ -24,6 +24,19 @@ module.exports = {
             grossmagenta: '#cc11ff',
         },
         extend: {
+            animation: {
+                flash: 'flash 1s ease-in',
+            },
+            keyframes: {
+                flash: {
+                    '0%, 100%': {
+                        filter: 'brightness(100) contrast(1)',
+                    },
+                    '20%': {
+                        filter: 'brightness(2) contrast(2)',
+                    },
+                },
+            },
             spacing: {
                 '20vw': '20vw',
                 '21vw': '21vw',
@@ -55,6 +68,10 @@ module.exports = {
         },
         {
             pattern: /bg-+/,
+            variants: ['hover', 'group-hover'],
+        },
+        {
+            pattern: /filter-+/,
             variants: ['hover', 'group-hover'],
         },
     ],

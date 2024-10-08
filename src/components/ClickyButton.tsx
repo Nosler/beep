@@ -40,17 +40,6 @@ export const ClickyButton = (props: ClickyButtonProps) => {
             class={cn(buttonDefault, buttonHover, buttonActive, props.class)}
             type="submit"
             onClick={play}
-            style="
-                  clip-path: polygon(
-                    0 0%,
-                    90% 0,
-                    100% 20%,
-                    100% 80%,
-                    100% 100%,
-                    0% 100%,
-                    0% 80%
-                )
-            "
         >
             <span class="w-full text-center">{props.label}</span>
         </button>
