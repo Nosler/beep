@@ -8,6 +8,7 @@ module.exports = {
             tengrey: '#1C1C1C',
             twentygrey: '#444444',
             thirtygrey: '#777777',
+            fourtygrey: '#999999',
             cyan: '#00ffff',
             magenta: '#ff00ff',
             yellow: '#ffff00',

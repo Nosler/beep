@@ -10,11 +10,8 @@ export const SelfTab = () => {
 
     return (
         <div>
-            <div class="flex items-center gap-2">
-                <Toggle value={editMode} onToggle={setEditMode} />
-                <span class="text-l">Edit</span>
-            </div>
             <Spacer y="2" />
+            <Toggle value={editMode} onToggle={setEditMode} />
             <ButtonGrid buttons={config.sounds} edit={editMode} />
         </div>
     );
