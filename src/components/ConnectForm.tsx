@@ -16,15 +16,16 @@ export const ConnectForm = () => {
         <form onSubmit={handleSubmit} class="mt-2 flex w-full items-center justify-around gap-2">
             <input
                 type="text"
-                class="bg-white text-center text-tengrey"
+                maxlength="10"
+                class="max-w-32 bg-white text-center text-black"
                 placeholder="PeerID"
                 value={text()}
                 onInput={(e) => setText(e.target.value)}
             />
             <input
-                class="border-whitegrey border-width-1 shrink grow border border-solid bg-black pt-1"
+                class="border-whitegrey shrink grow border border-solid bg-black p-0.5"
                 type="submit"
-                value="CONNECT"
+                value="Send Request"
             />
         </form>
     );

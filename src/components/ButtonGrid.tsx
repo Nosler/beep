@@ -16,7 +16,7 @@ export const ButtonGrid = (props: ButtonGridProps) => {
 
     return (
         <>
-            <div class={`grid grid-cols-3 grid-rows-${rows()} `}>
+            <div class={`grid grid-cols-2 grid-rows-${rows()} `}>
                 <For each={props.buttons}>
                     {(button, index) => (
                         <ClickyButton

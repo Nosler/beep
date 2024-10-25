@@ -1,5 +1,4 @@
 import { createEffect, createSignal } from 'solid-js';
-import X from '../assets/x.png';
 import { useConfig } from '../config';
 import { useConnection } from '../connection';
 import { open } from '@tauri-apps/api/dialog';
@@ -39,7 +38,7 @@ export const EditSound = (props: EditSoundProps) => {
         if (soundFile()) {
             return soundFile()!.substring(soundFile()!.lastIndexOf('/') + 1);
         }
-        return 'sound';
+        return 'Select Audio';
     };
     const onSubmit = async (e: SubmitEvent) => {
         e.preventDefault();
@@ -63,7 +62,7 @@ export const EditSound = (props: EditSoundProps) => {
         const file = await open({
             multiple: false,
             directory: false,
-            filters: [{ name: 'audio', extensions: ['mp3', 'wav', 'ogg'] }],
+            filters: [{ name: 'audio', extensions: ['mp3', 'wav', 'ogg', 'flac'] }],
             title: 'Beep?',
         });
         Logger.info('file', file);
@@ -77,44 +76,53 @@ export const EditSound = (props: EditSoundProps) => {
     return (
         <div
             id="backdrop"
-            class="absolute inset-0 z-10 m-0 size-full backdrop-blur-[2px]"
+            class="m-full opacity-m absolute inset-0 z-10 backdrop-blur-lg"
             onClick={(e) => (e.target.id === 'backdrop' ? props.close() : null)}
         >
-            <div class="absolute inset-0 m-auto size-max border border-thirtygrey bg-tengrey p-2">
-                <button
-                    class="bg-red-500 absolute right-0 top-0 p-1 text-white"
-                    onClick={() => props.close()}
-                >
-                    <img src={X} alt="close" />
-                </button>
-
+            <div class="absolute inset-0 m-auto size-max border border-thirtygrey bg-tengrey p-4">
                 <form
-                    class="m-6 flex flex-col items-center gap-2 border border-dashed border-thirtygrey p-4"
+                    class="w-vw flex flex-col items-center gap-3 p-2"
                     onSubmit={(e) => void onSubmit(e)}
                 >
-                    <span class="text-xl">{text()}</span>
-                    <input
-                        type="text"
-                        maxLength="10"
-                        class="text-l w-32 border border-thirtygrey text-center text-tengrey"
-                        value={soundLabel()}
-                        onChange={(e) => setSoundLabel(e.target.value)}
-                    />
+                    <div class="flex w-full gap-2">
+                        <div class="h-12 w-3 bg-cyan"></div>
+                        <input
+                            type="text"
+                            maxLength="15"
+                            class="h-12 w-32 border border-cyan bg-black text-center text-cyan"
+                            value={soundLabel()}
+                            onChange={(e) => setSoundLabel(e.target.value)}
+                        />
+                    </div>
                     <button
                         type="button"
                         value={fileText()}
-                        class="bg-white px-2 text-tengrey"
+                        class="text-fourtygrey w-full border border-dashed bg-black px-2"
                         onClick={(e) => void openFile(e)}
                     >
                         {fileText()}
                     </button>
-                    <div class="flex gap-1">
-                        <button type="button" class="bg-tengrey px-2 text-white" onClick={onDelete}>
-                            Delete
+                    <div class="flex gap-4 pt-2">
+                        <button
+                            class="size-full border border-thirtygrey bg-tengrey px-2 text-lg text-thirtygrey"
+                            onClick={() => props.close()}
+                        >
+                            B
                         </button>
 
-                        <button type="submit" class="bg-tengrey px-2 text-white">
-                            Save
+                        <button
+                            type="button"
+                            class="size-full border border-thirtygrey bg-tengrey px-2 text-lg text-thirtygrey"
+                            onClick={onDelete}
+                        >
+                            D
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="size-full border border-thirtygrey bg-tengrey px-2 text-lg text-thirtygrey"
+                        >
+                            S
                         </button>
                     </div>
                 </form>
